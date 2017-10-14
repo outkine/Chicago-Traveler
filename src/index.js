@@ -1,12 +1,15 @@
 import React from 'react'
-import { StackNavigator } from 'react-navigation'
+import { TabNavigator } from 'react-navigation'
 
-import HomeScreen from './scenes/home'
+import * as scenes from './scenes'
 
 export default function App () {
-  const Navigator = StackNavigator({
-    Home: { screen: HomeScreen }
+  const Navigator = TabNavigator({
+    favorites: { screen: scenes.favorites },
+    map: { screen: scenes.map },
+    nearby: { screen: scenes.nearby },
   })
 
-  return <Navigator />
+  return <Navigator
+  />
 }

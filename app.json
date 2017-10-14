@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "test2",
-    "description": "An empty new project",
-    "slug": "test2",
+    "name": "mycta",
+    "description": "the one stop for all of your CTA needs",
+    "slug": "mycta",
     "privacy": "public",
     "sdkVersion": "21.0.0",
     "version": "1.0.0",
