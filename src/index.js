@@ -5,8 +5,8 @@ import * as scenes from './scenes'
 
 export default function App () {
   const Navigator = TabNavigator({
-    favorites: { screen: scenes.favorites },
     map: { screen: scenes.map },
+    favorites: { screen: scenes.favorites },
     nearby: { screen: scenes.nearby },
   })
 
