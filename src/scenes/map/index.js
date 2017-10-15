@@ -1,18 +1,12 @@
 import React from 'react'
 import MapView from 'react-native-maps'
-import { Text } from 'react-native'
 
 import * as info from 'mycta/info'
-import * as cta from 'mycta/jsclient'
+import Marker from './Marker'
 
 export default class Map extends React.Component {
-  state = {
-    predictions: []
-  }
-  markers = {}
-
   render () {
-    console.log('state', this.state.predictions)
+    // console.log('state', this.state.predictions)
     return (
       <MapView
         style={{height: '100%', position: 'absolute', width: '100%'}}
@@ -29,35 +23,14 @@ export default class Map extends React.Component {
     )
   }
 
-  componentDidUpdate = () => {
-    console.log('marker', this.state.activeMarker)
-    console.log(this.markers[this.state.activeMarker])
-    this.markers[this.state.activeMarker].hideCallout()
-    setTimeout(() => this.markers[this.state.activeMarker].showCallout())
-  }
-
   generateMarker = (stop, type) => {
     // console.log('state', this.state.predictions)
     return (
-      <MapView.Marker
+      <Marker
         key={stop.id}
-        coordinate={stop.latlng}
+        stop={stop}
         pinColor={type === 'train' ? 'red' : 'blue'}
-        onPress={() => this.handlePress(stop.id, type)}
-        ref={(element) => (this.markers[stop.id] = element)}
-      >
-        <MapView.Callout>
-          <Text>{stop.title}</Text>
-          <Text>{this.state.activeMarker === stop.id ? this.state.predictions.join('\n') : 'loading...'}</Text>
-        </MapView.Callout>
-      </MapView.Marker>
+      />
     )
-  }
-
-  handlePress = (id, type) => {
-    cta.getPredictions(type, id, (data) => {
-      console.log('final', data)
-      this.setState({predictions: data, activeMarker: id})
-    })
   }
 }
