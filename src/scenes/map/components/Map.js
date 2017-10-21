@@ -3,6 +3,7 @@ import MapView from 'react-native-maps'
 import { View } from 'react-native'
 
 import * as info from 'mycta/info'
+import { Loading } from 'src/components'
 
 export default class Map extends React.Component {
   state = {
@@ -10,10 +11,8 @@ export default class Map extends React.Component {
       latitudeDelta: 0.4,
       longitudeDelta: 0.4,
       ...this.props.location,
-    }
-  }
-  constructor(props){
-    super(props);console.log('map initializeD!')
+    },
+    ready: false
   }
 
   render () {
@@ -27,6 +26,7 @@ export default class Map extends React.Component {
           loadingEnabled={true}
           showsUserLocation={true}
           onPress={this.props.onMapPress}
+          onMapReady={() => this.setState({ ready: true })}
         >
           {
             ['train', 'bus'].map(type => (
@@ -38,6 +38,8 @@ export default class Map extends React.Component {
             ))
           }
         </MapView>
+
+        { !this.state.ready && <Loading /> }
       </View>
     )
   }

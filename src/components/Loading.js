@@ -1,10 +1,17 @@
 import React from 'react'
-import { Text } from 'react-native'
+import { Text, View } from 'react-native'
 
 export default function Loading () {
   return (
-    <Text>
-      Loading...
-    </Text>
+    <View style={{
+      height: '100%',
+      width: '100%',
+      position: 'absolute',
+      backgroundColor: '#ffffff',
+    }}>
+      <Text>
+        Loading...
+      </Text>
+    </View>
   )
 }
