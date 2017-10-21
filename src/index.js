@@ -3,6 +3,7 @@ import { AsyncStorage } from 'react-native'
 import { TabNavigator } from 'react-navigation'
 import { Location } from 'expo'
 
+import { Loading } from './components'
 import * as scenes from './scenes'
 
 export default class App extends React.Component {
@@ -12,7 +13,7 @@ export default class App extends React.Component {
     nearby: { screen: scenes.nearby },
   })
 
-  state = { favorites: { train: [], bus: [] }, location: {} }
+  state = { favorites: { train: [], bus: [] }, location: null }
 
   constructor (props) {
     super(props)
@@ -25,12 +26,16 @@ export default class App extends React.Component {
       if (busFavorites) this.setState({ favorites: { ...this.state.favorites, bus: busFavorites } })
     })
 
-    Location.getCurrentPositionAsync({ enableHighAccuracy: true }, (results) => {
-      this.setState({ location: results })
-    })
+    Location.getCurrentPositionAsync({ enableHighAccuracy: true })
+      .then((results) => {
+        this.setState({ location: results.coords })
+      })
   }
 
   render () {
+    if (!this.state.location) {
+      return <Loading />
+    }
     return <this.Navigator screenProps={{ ...this.state, toggleFavorite: this.toggleFavorite }} />
   }
 

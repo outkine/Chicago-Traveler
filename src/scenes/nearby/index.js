@@ -17,13 +17,17 @@ export default function Nearby ({ screenProps: { favorites, toggleFavorite, loca
         Object.keys(favorites).map(type => (
           <View key={type}>
             {
-              favorites[type].map((id) => (
-                <View key={id}>
-                  <Text>
-                    {info[type][id].latlng}
-                  </Text>
-                </View>
-              ))
+              favorites[type]
+                .sort((a, b) => (
+                  findDistance(a, location) > findDistance(b, location) ? -1 : 1
+                ))
+                .map((id) => (
+                  <View key={id}>
+                    <Text>
+                      {info[type][id].latlng}
+                    </Text>
+                  </View>
+                ))
             }
           </View>
         ))
