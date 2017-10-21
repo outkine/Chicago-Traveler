@@ -50,11 +50,16 @@ for (const type of ['bus', 'train']) {
       ))
     }
 
-    fs.writeFileSync(path.join(__dirname, `./${type}_stops.json`), JSON.stringify(result))
+    let objectResult = result.reduce((accumulator, value) => {
+      accumulator[value.id] = value
+      return accumulator
+    }, {})
+
+    fs.writeFileSync(path.join(__dirname, `./${type}_stops.json`), JSON.stringify(objectResult))
   })
 }
 
 function processLocation (location) {
   location = location.replace(/(\(|\))/g, '').split(',')
-  return {latitude: parseFloat(location[0]), longitude: parseFloat(location[1])}
+  return { latitude: parseFloat(location[0]), longitude: parseFloat(location[1]) }
 }

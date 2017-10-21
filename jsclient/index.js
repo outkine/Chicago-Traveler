@@ -1,24 +1,24 @@
 import { busKey, trainKey } from 'mycta/keys'
 import { stringify } from 'querystring'
 
-function getTimeDiff (dateTime) {
-  let seconds = Math.floor((new Date(dateTime) - new Date()) / 1000)
+function formatTime (milliseconds) {
+  let seconds = Math.floor(milliseconds / 1000)
   let result = ''
   console.log(seconds)
 
   if (seconds >= 60) {
-    result += formatTime(Math.floor(seconds / 60), 'minute')
+    result += addUnit(Math.floor(seconds / 60), 'minute') + ' '
     seconds -= 60 * Math.floor(seconds / 60)
   }
 
   if (seconds) {
-    result += ' ' + formatTime(seconds, 'second')
+    result += addUnit(seconds, 'second')
   }
 
   return result
 }
 
-function formatTime (value, type) {
+function addUnit (value, type) {
   return value + ' ' + type + (value > 1 ? 's' : '')
 }
 
@@ -30,14 +30,22 @@ function formatBusDateTime (dateTime) {
   return list.join('')
 }
 
+function getTimeDiff (dateTime) {
+  return new Date(dateTime) - new Date()
+}
+
 export function getPredictions (type, id, callback) {
   if (type === 'train') {
-    trainRequest('ttarrivals', {stpid: id}, (data) => callback(
-      data.eta.map(prediction => getTimeDiff(prediction.arrT))
+    trainRequest('ttarrivals', { stpid: id }, (data) => callback(
+      data.eta
+        .filter(prediction => getTimeDiff(prediction.arrT) > 0)
+        .map(prediction => formatTime(getTimeDiff(prediction.arrT)))
     ))
   } else {
-    busRequest('getpredictions', {stpid: id}, (data) => callback(
-      data.error ? [data.error[0].msg] : data.prd.map(prediction => getTimeDiff(formatBusDateTime(prediction.prdtm)))
+    busRequest('getpredictions', { stpid: id }, (data) => callback(
+      data.error ? [data.error[0].msg] : data.prd
+        .filter(prediction => getTimeDiff(formatBusDateTime(prediction.prdtm)) > 0)
+        .map(prediction => formatTime(getTimeDiff(formatBusDateTime(prediction.prdtm))))
     ))
   }
 }

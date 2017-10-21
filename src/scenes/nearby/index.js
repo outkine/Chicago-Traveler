@@ -1,12 +1,33 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 
-import styles from 'src/styles'
+import * as info from 'mycta/info'
 
-export default function App () {
+function findDistance (distance1, distance2) {
+  return Math.sqrt(
+    (distance1.latitude - distance2.latitude) ^ 2 +
+    (distance1.longitude - distance2.longitude) ^ 2
+  )
+}
+
+export default function Nearby ({ screenProps: { favorites, toggleFavorite, location } }) {
   return (
-    <View style={styles.container}>
-      <Text>nearby</Text>
+    <View>
+      {
+        Object.keys(favorites).map(type => (
+          <View key={type}>
+            {
+              favorites[type].map((id) => (
+                <View key={id}>
+                  <Text>
+                    {info[type][id].latlng}
+                  </Text>
+                </View>
+              ))
+            }
+          </View>
+        ))
+      }
     </View>
   )
 }

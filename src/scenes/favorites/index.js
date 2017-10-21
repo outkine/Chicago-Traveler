@@ -1,12 +1,30 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, Button } from 'react-native'
 
-import styles from 'src/styles'
+import * as info from 'mycta/info'
 
-export default function App ({ screenProps }) {
+export default function Favorites ({ screenProps: { favorites, toggleFavorite } }) {
   return (
-    <View style={styles.container}>
-      <Text>favorites</Text>
+    <View>
+      {
+        Object.keys(favorites).map(type => (
+          <View key={type}>
+            {
+              favorites[type].map((id) => (
+                <View key={id}>
+                  <Text>
+                    {info[type][id].title}
+                  </Text>
+                  <Button
+                    title='unstar'
+                    onPress={() => toggleFavorite(type, id)}
+                  />
+                </View>
+              ))
+            }
+          </View>
+        ))
+      }
     </View>
   )
 }
