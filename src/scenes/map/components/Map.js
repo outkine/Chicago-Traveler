@@ -5,49 +5,44 @@ import { View } from 'react-native'
 import * as info from 'mycta/info'
 
 export default class Map extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      region: {
-        latitudeDelta: 0.4,
-        longitudeDelta: 0.4,
-        ...props.location,
-      }
+  state = {
+    region: {
+      latitudeDelta: 0.4,
+      longitudeDelta: 0.4,
+      ...this.props.location,
     }
+  }
+  constructor(props){
+    super(props);console.log('map initializeD!')
   }
 
   render () {
-    console.log(this.state.region)
     return (
       <View style={{ height: '100%' }}>
         <MapView
           style={{ height: '100%', position: 'absolute', width: '100%' }}
           region={this.state.region}
-          onRegionChange={(region) => this.setState({ region })}
+          onRegionChange={(region) => {console.log(1, region);this.setState({ region })}}
+          onRegionChangeComplete={(region) => { console.log(2, region); this.setState({ region }) }}
           loadingEnabled={true}
           showsUserLocation={true}
           onPress={this.props.onMapPress}
         >
-          {Object.values(info.train).map(stop => this.generateMarker(stop, 'train'))}
-          {Object.values(info.bus).map(stop => this.generateMarker(stop, 'bus'))}
+          {
+            ['train', 'bus'].map(type => (
+              <View key={type}>
+                {
+                  Object.values(info[type]).map(stop => this.generateMarker(stop, type))
+                }
+              </View>
+            ))
+          }
         </MapView>
       </View>
     )
   }
 
   generateMarker = (stop, type) => {
-    // console.log('state', this.state.predictions)
-    // return (
-    //   <Marker
-    //     key={stop.id}
-    //     stop={stop}
-    //     type={type}
-    //     pinColor={type === 'train' ? 'red' : 'blue'}
-    //     onFavoritesChange={this.props.screenProps.toggleFavorite}
-    //     favorites={this.props.screenProps.favorites[type]}
-    //   />
-    // )
-
     return (
       <MapView.Marker
         key={stop.id}

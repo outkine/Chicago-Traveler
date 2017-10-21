@@ -5,7 +5,7 @@ import * as components from './components'
 import { getPredictions } from 'mycta/jsclient'
 
 export default class MainMap extends React.Component {
-  state = { stop: null, predictions: [] }
+  state = { stop: null, predictions: [], closing: false }
 
   render () {
     return (
@@ -13,10 +13,10 @@ export default class MainMap extends React.Component {
         <components.Map
           location={this.props.screenProps.location}
           onMarkerPress={this.onMarkerPress}
-          onMapPress={() => this.setState({ stop: null, predictions: [] })}
+          onMapPress={() => this.setState({ closing: true, predictions: [] })}
         />
         {
-          this.stop && (
+          this.state.stop && (
             <components.Indicator
               {...this.state}
             />
@@ -27,7 +27,7 @@ export default class MainMap extends React.Component {
   }
 
   onMarkerPress = (stop, type) => {
-    this.setState({ stop: stop })
+    this.setState({ stop: stop, closing: false })
     getPredictions(type, stop.id, (data) => {
       this.setState({ predictions: data })
     })
