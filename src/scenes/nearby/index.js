@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, Button } from 'react-native'
 
 import * as info from 'mycta/info'
 
@@ -23,9 +23,11 @@ export default function Nearby ({ screenProps: { favorites, toggleFavorite, loca
                 ))
                 .map((id) => (
                   <View key={id}>
-                    <Text>
-                      {info[type][id].latlng}
-                    </Text>
+                    <Text>{info[type][id].latlng}</Text>
+                    <Button
+                      text='favorite'
+                      onPress={() => toggleFavorite(type, id)}
+                    />
                   </View>
                 ))
             }

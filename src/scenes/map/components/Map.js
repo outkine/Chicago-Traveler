@@ -21,8 +21,8 @@ export default class Map extends React.Component {
         <MapView
           style={{ height: '100%', position: 'absolute', width: '100%' }}
           region={this.state.region}
-          onRegionChange={(region) => {console.log(1, region);this.setState({ region })}}
-          onRegionChangeComplete={(region) => { console.log(2, region); this.setState({ region }) }}
+          onRegionChange={(region) => this.setState({ region })}
+          onRegionChangeComplete={(region) => this.setState({ region })}
           loadingEnabled={true}
           showsUserLocation={true}
           onPress={this.props.onMapPress}

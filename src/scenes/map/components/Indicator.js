@@ -1,23 +1,24 @@
 import React from 'react'
-import { Animated, Text } from 'react-native'
+import { Animated, Text, Button } from 'react-native'
 
 export default class Indicator extends React.Component {
-  state = { translateY: new Animated.Value(0) }
+  state = { translateY: new Animated.Value(1) }
 
   constructor (props) {
     super(props)
-
+    console.log('INITIALIZED')
     this.animation = Animated.timing(
       this.state.translateY,
       {
-        toValue: -100,
+        toValue: 0,
       }
     )
     this.animation.start()
   }
 
   toggleAnimation () {
-    const value = this.props.closing ? -100 : 0
+    console.log('RESETING ANIMATION')
+    const value = this.props.closing ? 0 : 1
     this.animation.stop()
     this.animation = Animated.timing(
       this.state.translateY,
@@ -29,21 +30,24 @@ export default class Indicator extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
+    console.log('UPDATED', this.props.closing !== nextProps.closing)
     if (this.props.closing !== nextProps.closing) this.toggleAnimation()
   }
 
   render () {
+    console.log('ANIMATION', this.state.translateY._value)
     return (
       <Animated.View
         style={{
-          transform: [{ translateY: this.state.translateY }],
           position: 'absolute',
-          top: '100%',
+          bottom: this.state.translateY.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['0%', '-50%']
+          }),
           right: 0,
           left: 0,
           backgroundColor: '#ffffff',
           width: '100%',
-          height: 300,
           padding: 10,
         }}
       >
@@ -53,7 +57,11 @@ export default class Indicator extends React.Component {
             textAlign: 'center',
           }}
         >{this.props.stop.title}</Text>
-        <Text>{this.props.predictions.join('\n')}</Text>
+        <Text>{this.props.predictions.length > 0 ? this.props.predictions.join('\n') : 'Loading...'}</Text>
+        <Button
+          title='favorite'
+          onPress={() => this.props.toggleFavorite(this.props.stop.type, this.props.stop.id)}
+        />
       </Animated.View>
     )
   }

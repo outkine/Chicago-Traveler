@@ -4,7 +4,6 @@ import { stringify } from 'querystring'
 function formatTime (milliseconds) {
   let seconds = Math.floor(milliseconds / 1000)
   let result = ''
-  console.log(seconds)
 
   if (seconds >= 60) {
     result += addUnit(Math.floor(seconds / 60), 'minute') + ' '

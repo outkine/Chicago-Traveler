@@ -19,6 +19,7 @@ export default class MainMap extends React.Component {
           this.state.stop && (
             <components.Indicator
               {...this.state}
+              toggleFavorite={this.props.screenProps.toggleFavorite}
             />
           )
         }
@@ -27,9 +28,11 @@ export default class MainMap extends React.Component {
   }
 
   onMarkerPress = (stop, type) => {
-    this.setState({ stop: stop, closing: false })
+    console.log('PRESSED')
+    this.setState({ stop: { ...stop, type: type }, closing: false, predictions: [] })
     getPredictions(type, stop.id, (data) => {
       this.setState({ predictions: data })
+      console.log('GOT PREDICTIONS')
     })
   }
 }
