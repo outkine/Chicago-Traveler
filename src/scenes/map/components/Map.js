@@ -29,7 +29,7 @@ export default class Map extends React.Component {
           onMapReady={() => this.setState({ ready: true })}
         >
           {
-            ['train', 'bus'].map(type => (
+            ['train'].map(type => (
               <View key={type}>
                 {
                   Object.values(info[type]).map(stop => this.generateMarker(stop, type))

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, Button } from 'react-native'
+import { Text, ScrollView, View, Button } from 'react-native'
 
 import * as info from 'mycta/info'
 
@@ -12,21 +12,22 @@ function findDistance (distance1, distance2) {
 
 export default function Nearby ({ screenProps: { favorites, toggleFavorite, location } }) {
   return (
-    <View>
+    <ScrollView>
       {
-        Object.keys(favorites).map(type => (
+        ['train', 'bus'].map(type => (
           <View key={type}>
+            <Text>{type}</Text>
             {
-              favorites[type]
+              Object.values(info[type])
                 .sort((a, b) => (
-                  findDistance(a, location) > findDistance(b, location) ? -1 : 1
+                  findDistance(a.latlng, location) > findDistance(b.latlng, location) ? -1 : 1
                 ))
-                .map((id) => (
-                  <View key={id}>
-                    <Text>{info[type][id].latlng}</Text>
+                .map((stop) => (
+                  <View key={stop.id}>
+                    <Text>{stop.title}</Text>
                     <Button
-                      text='favorite'
-                      onPress={() => toggleFavorite(type, id)}
+                      title='favorite'
+                      onPress={() => toggleFavorite(type, stop.id)}
                     />
                   </View>
                 ))
@@ -34,6 +35,6 @@ export default function Nearby ({ screenProps: { favorites, toggleFavorite, loca
           </View>
         ))
       }
-    </View>
+    </ScrollView>
   )
 }

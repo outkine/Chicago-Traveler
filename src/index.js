@@ -1,7 +1,7 @@
 import React from 'react'
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage, View } from 'react-native'
 import { TabNavigator } from 'react-navigation'
-import { Location } from 'expo'
+import { Location, Constants } from 'expo'
 
 import { Loading } from './components'
 import * as scenes from './scenes'
@@ -33,13 +33,21 @@ export default class App extends React.Component {
   }
 
   render () {
+    console.log(this.state)
     if (!this.state.location) {
       return <Loading />
     }
-    return <this.Navigator screenProps={{ ...this.state, toggleFavorite: this.toggleFavorite }} />
+    return (
+      <View style={{ height: '100%', paddingTop: Constants.statusBarHeight }}>
+        <this.Navigator
+          screenProps={{ ...this.state, toggleFavorite: this.toggleFavorite }}
+        />
+      </View>
+    )
   }
 
   toggleFavorite = (type, id) => {
+    console.log('FAVORITES TOGGLED')
     const favorites = this.state.favorites[type]
 
     if (!favorites.includes(id)) {
@@ -48,6 +56,7 @@ export default class App extends React.Component {
       favorites.splice(favorites.indexOf(id), 1)
     }
 
+    this.forceUpdate()
     AsyncStorage.setItem(type + 'Favorites', favorites[type])
   }
 }
