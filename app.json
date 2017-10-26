@@ -20,7 +20,12 @@
       "bundleIdentifier": "com.mycta.mycta"
     },
     "android": {
-      "package": "com.mycta.mycta"
+      "package": "com.mycta.mycta",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAx9YuC08qsSusZfPb0YD3S1deOj1ErrE4"
+        }
+      }
     }
   }
 }

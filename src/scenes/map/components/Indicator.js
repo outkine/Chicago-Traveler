@@ -35,7 +35,7 @@ export default class Indicator extends React.Component {
   }
 
   render () {
-    console.log('ANIMATION', this.state.translateY._value)
+    console.log('ANIMATION', this.state.translateY._value, 'PREDICTIONS', this.props.predictions)
     return (
       <Animated.View
         style={{

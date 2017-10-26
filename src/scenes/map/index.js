@@ -32,7 +32,7 @@ export default class MainMap extends React.Component {
     this.setState({ stop: { ...stop, type: type }, closing: false, predictions: [] })
     getPredictions(type, stop.id, (data) => {
       this.setState({ predictions: data })
-      console.log('GOT PREDICTIONS')
+      console.log('GOT PREDICTIONS', data)
     })
   }
 }

@@ -1,10 +1,17 @@
 import React from 'react'
 import { AsyncStorage, View } from 'react-native'
 import { TabNavigator } from 'react-navigation'
-import { Location, Constants } from 'expo'
+import { Location, Constants, Permissions } from 'expo'
 
 import { Loading } from './components'
 import * as scenes from './scenes'
+
+const DEFAULT_LOCATION = {
+  location: {
+    latitude: 41.89,
+    longitude: -87.6923,
+  }
+}
 
 export default class App extends React.Component {
   Navigator = TabNavigator({
@@ -18,17 +25,34 @@ export default class App extends React.Component {
   constructor (props) {
     super(props)
 
-    AsyncStorage.getItem('trainFavorites', (trainFavorites) => {
-      if (trainFavorites) this.setState({ favorites: { ...this.state.favorites, train: trainFavorites } })
+    AsyncStorage.getItem('trainFavorites', (err, trainFavorites) => {
+      console.log('train', trainFavorites, err)
+      if (err) console.log(err)
+      if (trainFavorites) this.setState({ favorites: { ...this.state.favorites, train: JSON.parse(trainFavorites) } })
     })
 
-    AsyncStorage.getItem('busFavorites', (busFavorites) => {
-      if (busFavorites) this.setState({ favorites: { ...this.state.favorites, bus: busFavorites } })
+    AsyncStorage.getItem('busFavorites', (err, busFavorites) => {
+      console.log('bus', busFavorites, err)
+      if (err) console.log(err)
+      if (busFavorites) this.setState({ favorites: { ...this.state.favorites, bus: JSON.parse(busFavorites) } })
     })
 
-    Location.getCurrentPositionAsync({ enableHighAccuracy: true })
-      .then((results) => {
-        this.setState({ location: results.coords })
+    Permissions.askAsync(Permissions.LOCATION)
+      .then(({ status }) => {
+        console.log(status)
+        if (status !== 'granted') {
+          this.setState(DEFAULT_LOCATION)
+        } else {
+          Location.getCurrentPositionAsync({ enableHighAccuracy: true })
+            .then((results) => {
+              this.setState({ location: results.coords })
+              console.log('result')
+            })
+            .catch((err) => {
+              console.log(err)
+              this.setState(DEFAULT_LOCATION)
+            })
+        }
       })
   }
 
@@ -57,6 +81,9 @@ export default class App extends React.Component {
     }
 
     this.forceUpdate()
-    AsyncStorage.setItem(type + 'Favorites', favorites[type])
+    console.log('FAVORITES SET', type + 'Favorites', favorites)
+    AsyncStorage.setItem(type + 'Favorites', JSON.stringify(favorites), (err) => {
+      console.log(err)
+    })
   }
 }
