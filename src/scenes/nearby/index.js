@@ -1,6 +1,7 @@
 import React from 'react'
-import { Text, ScrollView, View, Button } from 'react-native'
+import { Text, ScrollView, View } from 'react-native'
 
+import { StopDelayed } from 'src/components'
 import * as info from 'mycta/info'
 
 function findDistance (distance1, distance2) {
@@ -24,10 +25,10 @@ export default function Nearby ({ screenProps: { favorites, toggleFavorite, loca
                 ))
                 .map((stop) => (
                   <View key={stop.id}>
-                    <Text>{stop.title}</Text>
-                    <Button
-                      title='favorite'
-                      onPress={() => toggleFavorite(type, stop.id)}
+                    <StopDelayed
+                      toggleFavorite={toggleFavorite}
+                      type={type}
+                      stop={stop}
                     />
                   </View>
                 ))

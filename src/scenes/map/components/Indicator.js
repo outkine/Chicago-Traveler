@@ -57,7 +57,9 @@ export default class Indicator extends React.Component {
             textAlign: 'center',
           }}
         >{this.props.stop.title}</Text>
-        <Text>{this.props.predictions.length > 0 ? this.props.predictions.join('\n') : 'Loading...'}</Text>
+        <Text>
+          {this.props.predictions.length > 0 ? this.props.predictions.join('\n') : 'Loading...'}
+        </Text>
         <Button
           title='favorite'
           onPress={() => this.props.toggleFavorite(this.props.stop.type, this.props.stop.id)}

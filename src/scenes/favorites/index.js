@@ -1,6 +1,7 @@
 import React from 'react'
-import { Text, View, Button } from 'react-native'
+import { View } from 'react-native'
 
+import { Stop } from 'src/components'
 import * as info from 'mycta/info'
 
 export default function Favorites ({ screenProps: { favorites, toggleFavorite } }) {
@@ -12,12 +13,10 @@ export default function Favorites ({ screenProps: { favorites, toggleFavorite } 
             {
               favorites[type].map((id) => (
                 <View key={id}>
-                  <Text>
-                    {info[type][id].title}
-                  </Text>
-                  <Button
-                    title='unstar'
-                    onPress={() => toggleFavorite(type, id)}
+                  <Stop
+                    toggleFavorite={toggleFavorite}
+                    type={type}
+                    stop={info[type][id]}
                   />
                 </View>
               ))

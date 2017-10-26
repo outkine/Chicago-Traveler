@@ -30,6 +30,7 @@ function formatBusDateTime (dateTime) {
 }
 
 function getTimeDiff (dateTime) {
+  console.log(new Date(dateTime), new Date(), (new Date()).toDateString())
   return new Date(dateTime) - new Date()
 }
 
@@ -37,7 +38,10 @@ export function getPredictions (type, id, callback) {
   if (type === 'train') {
     trainRequest('ttarrivals', { stpid: id }, (data) => callback(
       data.eta
-        .filter(prediction => getTimeDiff(prediction.arrT) > 0)
+        .filter(prediction => {
+          console.log('TIME DIFF', getTimeDiff(prediction.arrT), prediction)
+          return getTimeDiff(prediction.arrT) > 0
+        })
         .map(prediction => formatTime(getTimeDiff(prediction.arrT)))
     ))
   } else {
