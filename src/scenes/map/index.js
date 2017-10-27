@@ -1,7 +1,8 @@
 import React from 'react'
 import { View } from 'react-native'
 
-import * as components from './components'
+import Map from './Map'
+import Indicator from './Indicator'
 import { getPredictions } from 'mycta/jsclient'
 
 export default class MainMap extends React.Component {
@@ -10,14 +11,14 @@ export default class MainMap extends React.Component {
   render () {
     return (
       <View style={{ height: '100%' }}>
-        <components.Map
+        <Map
           location={this.props.screenProps.location}
           onMarkerPress={this.onMarkerPress}
           onMapPress={() => this.setState({ closing: true, predictions: [] })}
         />
         {
           this.state.stop && (
-            <components.Indicator
+            <Indicator
               {...this.state}
               toggleFavorite={this.props.screenProps.toggleFavorite}
             />

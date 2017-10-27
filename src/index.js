@@ -15,9 +15,9 @@ const DEFAULT_LOCATION = {
 
 export default class App extends React.Component {
   Navigator = TabNavigator({
+    nearby: { screen: scenes.nearby },
     map: { screen: scenes.map },
     favorites: { screen: scenes.favorites },
-    nearby: { screen: scenes.nearby },
   })
 
   state = { favorites: { train: [], bus: [] }, location: null }

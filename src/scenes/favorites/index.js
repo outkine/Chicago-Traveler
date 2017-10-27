@@ -2,7 +2,7 @@ import React from 'react'
 import { View } from 'react-native'
 
 import { Stop } from 'src/components'
-import * as info from 'mycta/info'
+import * as stops from 'mycta/info/stops'
 
 export default function Favorites ({ screenProps: { favorites, toggleFavorite } }) {
   return (
@@ -16,7 +16,7 @@ export default function Favorites ({ screenProps: { favorites, toggleFavorite } 
                   <Stop
                     toggleFavorite={toggleFavorite}
                     type={type}
-                    stop={info[type][id]}
+                    stop={stops[type][id]}
                   />
                 </View>
               ))

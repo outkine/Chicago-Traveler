@@ -35,17 +35,21 @@ for (const type of ['bus', 'train']) {
     if (type === 'train') {
       result = result.map(stop => (
         {
-          id: parseInt(stop.stop_id),
+          id: stop.stop_id,
           title: stop.stop_name,
-          latlng: processLocation(stop.location)
+          latlng: processLocation(stop.location),
+          lines: generateTrainLines(stop),
+          direction: stop.direction_id,
         }
       ))
     } else {
       result = result.map(stop => (
         {
-          id: parseInt(stop.stop_id),
+          id: stop.stop_id,
           title: stop['cta stop name'],
-          latlng: processLocation(stop.location)
+          latlng: processLocation(stop.location),
+          lines: stop.routes.split(','),
+          direction: stop.direction.replace('B', ''),
         }
       ))
     }
@@ -56,10 +60,36 @@ for (const type of ['bus', 'train']) {
     }, {})
 
     fs.writeFileSync(path.join(__dirname, `./${type}_stops.json`), JSON.stringify(objectResult))
+
+    const lines = {}
+    for (let stop of result) {
+      for (let line of stop.lines) {
+        if (!(line in lines)) lines[line] = []
+        lines[line].push(stop.id)
+      }
+    }
+    fs.writeFileSync(path.join(__dirname, `./${type}_lines.json`), JSON.stringify(lines))
   })
 }
 
 function processLocation (location) {
   location = location.replace(/(\(|\))/g, '').split(',')
   return { latitude: parseFloat(location[0]), longitude: parseFloat(location[1]) }
+}
+
+const L_COLORS = {
+  red: 'RED',
+  blue: 'BLUE',
+  g: 'GREEN',
+  brn: 'BROWN',
+  p: 'PURPLE',
+  pnk: 'PINK',
+  o: 'ORANGE',
+}
+function generateTrainLines (stop) {
+  const lines = []
+  for (let color in L_COLORS) {
+    if (stop[color] === 'TRUE') lines.push(L_COLORS[color])
+  }
+  return lines
 }

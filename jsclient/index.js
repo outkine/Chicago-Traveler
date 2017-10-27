@@ -1,5 +1,6 @@
 import { busKey, trainKey } from 'mycta/keys'
 import { stringify } from 'querystring'
+import moment from 'moment'
 
 function formatTime (milliseconds) {
   let seconds = Math.floor(milliseconds / 1000)
@@ -30,24 +31,19 @@ function formatBusDateTime (dateTime) {
 }
 
 function getTimeDiff (dateTime) {
-  console.log(new Date(dateTime), new Date(), (new Date()).toDateString())
-  return new Date(dateTime) - new Date()
+  console.log(Date.parse(dateTime), Date.now(), moment(dateTime).toISOString(), moment().toISOString())
+  return moment(dateTime).diff(moment())
 }
 
 export function getPredictions (type, id, callback) {
   if (type === 'train') {
     trainRequest('ttarrivals', { stpid: id }, (data) => callback(
       data.eta
-        .filter(prediction => {
-          console.log('TIME DIFF', getTimeDiff(prediction.arrT), prediction)
-          return getTimeDiff(prediction.arrT) > 0
-        })
         .map(prediction => formatTime(getTimeDiff(prediction.arrT)))
     ))
   } else {
     busRequest('getpredictions', { stpid: id }, (data) => callback(
       data.error ? [data.error[0].msg] : data.prd
-        .filter(prediction => getTimeDiff(formatBusDateTime(prediction.prdtm)) > 0)
         .map(prediction => formatTime(getTimeDiff(formatBusDateTime(prediction.prdtm))))
     ))
   }

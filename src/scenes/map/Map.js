@@ -2,7 +2,7 @@ import React from 'react'
 import MapView from 'react-native-maps'
 import { View } from 'react-native'
 
-import * as info from 'mycta/info'
+import * as stops from 'mycta/info/stops'
 import { Loading } from 'src/components'
 
 export default class Map extends React.Component {
@@ -29,10 +29,10 @@ export default class Map extends React.Component {
           onMapReady={() => this.setState({ ready: true })}
         >
           {
-            ['train'].map(type => (
+            ['train', 'bus'].map(type => (
               <View key={type}>
                 {
-                  Object.values(info[type]).map(stop => this.generateMarker(stop, type))
+                  Object.values(stops[type]).map(stop => this.generateMarker(stop, type))
                 }
               </View>
             ))
