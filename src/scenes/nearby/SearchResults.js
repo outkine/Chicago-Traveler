@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, ScrollView } from 'react-native'
 
-import { StopDelayed } from 'src/components'
+import Stop from 'src/components/Stop'
 import * as stops from 'mycta/info/stops'
 
 export default function SearchResults ({ search, toggleFavorite }) {
@@ -15,7 +15,7 @@ export default function SearchResults ({ search, toggleFavorite }) {
             ))
             .map(stop => (
               <View key={stop.id}>
-                <StopDelayed
+                <Stop
                   toggleFavorite={toggleFavorite}
                   type={type}
                   stop={stop}

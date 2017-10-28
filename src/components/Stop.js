@@ -1,7 +1,11 @@
 import React from 'react'
-import { View, Text, Button } from 'react-native'
+import { View, Text } from 'react-native'
 
 import { getPredictions } from 'mycta/jsclient'
+import styles from './Stop.css'
+import ReloadButton from './ReloadButton'
+import StarButton from './StarButton'
+import ImageButton from './ImageButton'
 
 export default class Stop extends React.Component {
   state = { predictions: [] }
@@ -9,21 +13,38 @@ export default class Stop extends React.Component {
   constructor (props) {
     super(props)
 
-    getPredictions(props.type, props.stop.id, (predictions) => this.setState({ predictions }))
+    if (this.props.immediate) {
+      this.getPredictions()
+    }
   }
 
   render () {
     return (
-      <View>
-        <Text>{this.props.stop.title}</Text>
-        <Text>
-          {this.state.predictions.length > 0 ? this.state.predictions.join('\n') : 'Loading...'}
+      <View style={styles.back}>
+        <Text style={styles.title}>
+          {this.props.stop.title}
         </Text>
-        <Button
-          title='favorite'
-          onPress={() => this.props.toggleFavorite(this.props.type, this.props.stop.id)}
-        />
+        { this.active &&
+          <Text style={styles.predictions}>
+            {this.state.predictions.length > 0 ? this.state.predictions.join('\n') : 'Loading...'}
+          </Text>
+        }
+        <View style={styles.buttonRow}>
+          <ReloadButton
+            onPress={() => this.getPredictions()}
+          />
+          <StarButton
+            onPress={() => this.props.toggleFavorite(this.props.type, this.props.stop.id)}
+          />
+        </View>
       </View>
+    )
+  }
+
+  getPredictions = () => {
+    this.active = true
+    getPredictions(this.props.type, this.props.stop.id, (predictions) =>
+      this.setState({ predictions })
     )
   }
 }

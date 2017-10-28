@@ -3,8 +3,9 @@ import { AsyncStorage, View } from 'react-native'
 import { TabNavigator } from 'react-navigation'
 import { Location, Constants, Permissions } from 'expo'
 
-import { Loading } from './components'
+import Loading from 'src/components/Loading'
 import * as scenes from './scenes'
+import { colors } from 'src/styles/constants'
 
 const DEFAULT_LOCATION = {
   location: {
@@ -13,11 +14,24 @@ const DEFAULT_LOCATION = {
   }
 }
 
+String.prototype.capitalize = function () {
+  return this.charAt(0).toUpperCase() + this.slice(1)
+}
+
 export default class App extends React.Component {
   Navigator = TabNavigator({
+    favorites: { screen: scenes.favorites },
     nearby: { screen: scenes.nearby },
     map: { screen: scenes.map },
-    favorites: { screen: scenes.favorites },
+  }, {
+    tabBarOptions: {
+      tabStyle: {
+        backgroundColor: colors.red,
+      },
+      indicatorStyle: {
+        backgroundColor: colors.yellow,
+      },
+    }
   })
 
   state = { favorites: { train: [], bus: [] }, location: null }

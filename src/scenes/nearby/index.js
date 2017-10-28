@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, TextInput, TouchableWithoutFeedback } from 'react-native'
+import { View, TextInput, Button } from 'react-native'
 
 import Scroll from './Scroll'
 import SearchResults from './SearchResults'
@@ -23,15 +23,23 @@ export default class All extends React.Component {
             />
           ) : (
             ['train', 'bus'].map(type => (
-              <TouchableWithoutFeedback
-                key={type}
-                onPress={() => this.setState({ type })}
-              >
-                <Scroll
-                  type={type}
-                  toggleFavorite={this.props.screenProps.toggleFavorite}
-                />
-              </TouchableWithoutFeedback>
+              <View key={type}>
+                {
+                  type === this.state.type ? (
+                    <Scroll
+                      type={type}
+                      toggleFavorite={this.props.screenProps.toggleFavorite}
+                    />
+                  ) : (
+                    <Button
+                      title={type}
+                      onPress={() => this.setState({
+                        type: this.state.type === type ? '' : type
+                      })}
+                    />
+                  )
+                }
+              </View>
             ))
           )
         }

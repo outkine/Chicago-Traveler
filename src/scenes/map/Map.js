@@ -1,9 +1,13 @@
 import React from 'react'
 import MapView from 'react-native-maps'
-import { View } from 'react-native'
+import { View, Switch, Text } from 'react-native'
+
+// shoutout to ya boy kenny G
+// oooh oooh Imma have to say yes
 
 import * as stops from 'mycta/info/stops'
-import { Loading } from 'src/components'
+import Loading from 'src/components/Loading'
+import styles from './Map.css'
 
 export default class Map extends React.Component {
   state = {
@@ -12,7 +16,8 @@ export default class Map extends React.Component {
       longitudeDelta: 0.4,
       ...this.props.location,
     },
-    ready: false
+    ready: false,
+    isTypeTrain: true
   }
 
   render () {
@@ -29,15 +34,21 @@ export default class Map extends React.Component {
           onMapReady={() => this.setState({ ready: true })}
         >
           {
-            ['train', 'bus'].map(type => (
-              <View key={type}>
-                {
-                  Object.values(stops[type]).map(stop => this.generateMarker(stop, type))
-                }
-              </View>
-            ))
+            Object.values(stops[this.state.isTypeTrain ? 'train' : 'bus']).map(stop =>
+              this.generateMarker(stop, this.state.isTypeTrain ? 'train' : 'bus')
+            )
           }
         </MapView>
+        <View style={styles.typeSwitchBack}>
+          <Text style={styles.typeSwitchText}>
+            {this.state.isTypeTrain ? 'train' : 'bus'}
+          </Text>
+          <Switch
+            onValueChange={(isTypeTrain) => this.setState({ isTypeTrain })}
+            value={this.state.isTypeTrain}
+            style={styles.typeSwitch}
+          />
+        </View>
 
         { !this.state.ready && <Loading /> }
       </View>

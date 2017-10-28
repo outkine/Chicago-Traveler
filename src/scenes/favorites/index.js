@@ -1,19 +1,24 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 
-import { Stop } from 'src/components'
+import Stop from 'src/components/Stop'
 import * as stops from 'mycta/info/stops'
+import styles from './Favorites.css'
 
 export default function Favorites ({ screenProps: { favorites, toggleFavorite } }) {
   return (
-    <View>
+    <View style={styles.back}>
       {
         Object.keys(favorites).map(type => (
-          <View key={type}>
+          <View key={type} style={styles.typeSection}>
+            <Text style={styles.typeTitle}>
+              {type.capitalize()}
+            </Text>
             {
               favorites[type].map((id) => (
                 <View key={id}>
                   <Stop
+                    immediate
                     toggleFavorite={toggleFavorite}
                     type={type}
                     stop={stops[type][id]}
