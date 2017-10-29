@@ -47,7 +47,7 @@ for (const type of ['bus', 'train']) {
         {
           id: stop.systemstop,
           title: stop.public_nam,
-          latlng: { latitude: parseFloat(stop.point_x), longitude: parseFloat(stop.point_y) },
+          latlng: { latitude: parseFloat(stop.point_y), longitude: parseFloat(stop.point_x) },
           lines: stop.routesstpg.split(','),
           direction: stop.dir.replace('B', ''),
         }

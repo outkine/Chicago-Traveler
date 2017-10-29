@@ -9,7 +9,6 @@ import * as stops from 'mycta/info/stops'
 import Loading from 'src/components/Loading'
 import { colors } from 'src/styles/constants'
 
-console.log(stops)
 export default class Map extends React.Component {
   state = {
     region: {
@@ -29,19 +28,26 @@ export default class Map extends React.Component {
           region={this.state.region}
           onRegionChange={(region) => this.setState({ region })}
           onRegionChangeComplete={(region) => this.setState({ region })}
-          loadingEnabled={true}
           showsUserLocation={true}
           onPress={this.props.onMapPress}
           onMapReady={() => this.setState({ ready: true })}
+          showsPointsOfInterest={false}
+          showsBuildings={false}
+          showsTraffic={false}
+          showsIndoors={false}
+          showsMyLocationButton={true}
         >
           {
-            Object.values(stops[this.state.isTypeTrain ? 'train' : 'bus']).map(stop =>
-              <MapView.Marker
-                key={stop.id}
-                coordinate={stop.latlng}
-                onPress={() => this.props.onMarkerPress(stop, this.state.isTypeTrain ? 'train' : 'bus')}
-              />
-            )
+            (this.state.isTypeTrain ? Object.values(stops['train']) : Object.values(stops['bus'])).map(stop => {
+              console.log(stop)
+              return (
+                <MapView.Marker
+                  key={stop.id}
+                  coordinate={stop.latlng}
+                  onPress={() => this.props.onMarkerPress(stop, this.state.isTypeTrain ? 'train' : 'bus')}
+                />
+              )
+            })
           }
         </MapView>
         <View style={{
