@@ -1,7 +1,7 @@
 export const colors = {
   yellow: ['#fff263', '#f9a825', '#c49000'],
   blue: ['#63a4ff', '#1976d2', '#004ba0'],
-  black: ['rgb(250, 250, 250)', 'rgb(230, 230, 230)', 'rgb(60, 60, 60)']
+  black: ['rgb(250, 250, 250)', 'rgb(230, 230, 230)', 'rgb(150, 150, 150)']
 }
 
 export const ctaColors = {
@@ -23,11 +23,21 @@ export const fonts = [
   {
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 17,
+  },
+  {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  {
+    textAlign: 'center',
+    fontWeight: '600',
+    fontSize: 14,
   },
   {
     textAlign: 'center',
     color: colors.black[2],
-    fontSize: 14,
-  }
+    fontSize: 13,
+  },
 ]

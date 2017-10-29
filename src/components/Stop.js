@@ -33,7 +33,7 @@ export default class Stop extends React.Component {
           {this.props.stop.title}
         </Text>
         <Text style={{
-          ...fonts[2],
+          ...fonts[4],
           marginBottom: 10,
         }}>
           {this.props.stop.lines.join(', ')}
@@ -49,14 +49,18 @@ export default class Stop extends React.Component {
           }}>
             {
               Object.keys(this.props.stop.directions).map(direction =>
-                <View key={direction}>
+                <View key={direction} style={{
+                  flex: 1,
+                }}>
                   <Text style={{
-                    ...fonts[1],
+                    ...fonts[2],
                   }}>
                     {direction}
                   </Text>
                   <Text>
-                    {this.state.predictions[direction] && this.state.predictions[direction].length > 0 ? this.state.predictions[direction].join('\n') : 'Loading...'}
+                    { (this.state.predictions[direction] && this.state.predictions[direction].length > 0)
+                      ? this.state.predictions[direction].join('\n') : 'Loading...'
+                    }
                   </Text>
                 </View>
               )

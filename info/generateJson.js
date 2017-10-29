@@ -24,14 +24,14 @@ function generateTrainLines (stop) {
 }
 
 const L_DIRECTIONS = {
-  s: 'South',
-  n: 'North',
-  e: 'East',
-  w: 'West',
-  ne: 'Northeast',
-  nw: 'Northwest',
-  se: 'Southeast',
-  sw: 'Southwest',
+  s: 'South-bound',
+  n: 'North-bound',
+  e: 'East-bound',
+  w: 'West-bound',
+  ne: 'Northeast-bound',
+  nw: 'Northwest-bound',
+  se: 'Southeast-bound',
+  sw: 'Southwest-bound',
 }
 
 for (const type of ['bus', 'train']) {

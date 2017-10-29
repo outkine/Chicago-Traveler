@@ -15,7 +15,7 @@ export default function Favorites ({ screenProps: { favorites, toggleFavorite } 
             <View key={type}>
               <Text style={{
                 ...fonts[0],
-                marginTop: 15,
+                marginTop: 20,
               }}>
                 {type.capitalize()}
               </Text>

@@ -7,7 +7,7 @@ import { View, Switch, Text } from 'react-native'
 
 import * as stops from 'mycta/info/stops'
 import Loading from 'src/components/Loading'
-import { colors } from 'src/styles/constants'
+import { colors, fonts } from 'src/styles/constants'
 
 export default class Map extends React.Component {
   state = {
@@ -38,29 +38,25 @@ export default class Map extends React.Component {
           showsMyLocationButton={true}
         >
           {
-            (this.state.isTypeTrain ? Object.values(stops['train']) : Object.values(stops['bus'])).map(stop => {
-              console.log(stop)
-              return (
-                <MapView.Marker
-                  key={stop.title}
-                  coordinate={stop.latlng}
-                  onPress={() => this.props.onMarkerPress(stop, this.state.isTypeTrain ? 'train' : 'bus')}
-                />
-              )
-            })
+            (this.state.isTypeTrain ? Object.values(stops['train']) : Object.values(stops['bus'])).map(stop =>
+              <MapView.Marker
+                key={stop.title}
+                coordinate={stop.latlng}
+                onPress={() => this.props.onMarkerPress(stop, this.state.isTypeTrain ? 'train' : 'bus')}
+              />
+            )
           }
         </MapView>
         <View style={{
           backgroundColor: 'white',
           alignSelf: 'flex-end',
           margin: 10,
-          borderRadius: 5,
+          borderRadius: 3,
         }}>
           <Text style={{
-            textAlign: 'center',
-            color: colors.black[2],
+            ...fonts[3]
           }}>
-            {this.state.isTypeTrain ? 'train' : 'bus'}
+            {this.state.isTypeTrain ? 'Train' : 'Bus'}
           </Text>
           <Switch
             onValueChange={(isTypeTrain) => this.setState({ isTypeTrain })}
