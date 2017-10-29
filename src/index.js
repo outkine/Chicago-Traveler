@@ -41,6 +41,10 @@ export default class App extends React.Component {
   constructor (props) {
     super(props)
 
+    AsyncStorage.setItem('trainFavorites', JSON.stringify([]), (err) => {
+      console.log(err)
+    })
+
     AsyncStorage.getItem('trainFavorites', (err, trainFavorites) => {
       console.log('train', trainFavorites, err)
       if (err) console.log(err)
@@ -61,8 +65,13 @@ export default class App extends React.Component {
         } else {
           Location.getCurrentPositionAsync({ enableHighAccuracy: true })
             .then((results) => {
-              this.setState({ location: results.coords })
-              console.log('result')
+              this.setState({
+                location: {
+                  ...results.coords,
+                  latitudeDelta: 0.03,
+                  longitudeDelta: 0.03,
+                }
+              })
             })
             .catch((err) => {
               console.log(err)

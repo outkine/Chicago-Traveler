@@ -2,6 +2,12 @@ import { busKey, trainKey } from 'mycta/keys'
 import { stringify } from 'querystring'
 import moment from 'moment'
 
+moment.updateLocale('en', {
+  relativeTime : {
+    s: 'arriving',
+  }
+})
+
 export function getPredictions (type, id, callback) {
   if (type === 'train') {
     trainRequest('ttarrivals', { stpid: id }, (data, error) => {

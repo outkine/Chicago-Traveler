@@ -12,6 +12,8 @@ const L_COLORS = {
   g: 'green',
   brn: 'brown',
   p: 'purple',
+  pexp: 'purple',
+  y: 'yellow',
   pnk: 'pink',
   o: 'orange',
 }
@@ -69,7 +71,8 @@ for (const type of ['bus', 'train']) {
       result = result.map(stop => (
         {
           id: stop.stop_id,
-          title: stop.station_name,
+          displayTitle: stop.station_name,
+          title: stop.station_descriptive_name,
           latlng: processLocation(stop.location),
           lines: generateTrainLines(stop),
           direction: L_DIRECTIONS[stop.direction_id.toLowerCase()],
@@ -79,6 +82,7 @@ for (const type of ['bus', 'train']) {
       result = result.map(stop => (
         {
           id: stop.systemstop,
+          displayTitle: stop.public_nam,
           title: stop.public_nam,
           latlng: { latitude: parseFloat(stop.point_y), longitude: parseFloat(stop.point_x) },
           lines: stop.routesstpg.split(','),

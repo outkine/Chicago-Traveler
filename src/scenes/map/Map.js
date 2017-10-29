@@ -52,6 +52,7 @@ export default class Map extends React.Component {
           alignSelf: 'flex-end',
           margin: 10,
           borderRadius: 3,
+          elevation: 2,
         }}>
           <Text style={{
             ...fonts[3]

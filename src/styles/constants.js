@@ -5,13 +5,14 @@ export const colors = {
 }
 
 export const ctaColors = {
-  blue: '#1976d2',
-  red: '#c62828',
-  green: '#388e3c',
-  brown: '#795548',
-  purple: '#9c27b0',
-  pink: '#b4004e',
-  orange: '#e64a19',
+  blue: '#00a1de',
+  red: '#c60c30',
+  green: '#009b3a',
+  brown: '#62361b',
+  purple: '#522398',
+  pink: '#e27ea6',
+  orange: '#f9461c',
+  yellow: '#f9e300',
 }
 
 export const fonts = [

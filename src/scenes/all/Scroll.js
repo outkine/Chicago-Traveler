@@ -33,9 +33,7 @@ export default class Scroll extends React.Component {
               />
 
               { lineName === this.state.lineName &&
-                  lines[this.props.type][lineName].map((stopTitle) => {
-                    console.log(stopTitle, stops[this.props.type], stops[this.props.type][stopTitle])
-                    return (
+                  lines[this.props.type][lineName].map((stopTitle) =>
                     <View key={stopTitle}>
                       <Stop
                         toggleFavorite={this.props.toggleFavorite}
@@ -44,8 +42,6 @@ export default class Scroll extends React.Component {
                         stop={stops[this.props.type][stopTitle]}
                       />
                     </View>
-                    )
-                  }
                   )
               }
             </View>

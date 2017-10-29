@@ -26,7 +26,7 @@ export default class All extends React.Component {
             <SearchResults
               search={this.state.search.toLowerCase()}
               toggleFavorite={this.props.screenProps.toggleFavorite}
-              favrotes={this.props.screenProps.favorites}
+              favorites={this.props.screenProps.favorites}
             />
         }
       </View>
