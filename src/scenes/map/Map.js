@@ -9,6 +9,7 @@ import * as stops from 'mycta/info/stops'
 import Loading from 'src/components/Loading'
 import { colors } from 'src/styles/constants'
 
+console.log(stops)
 export default class Map extends React.Component {
   state = {
     region: {

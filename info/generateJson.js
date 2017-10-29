@@ -45,11 +45,11 @@ for (const type of ['bus', 'train']) {
     } else {
       result = result.map(stop => (
         {
-          id: stop.stop_id,
-          title: stop['cta stop name'],
-          latlng: processLocation(stop.location),
-          lines: stop.routes.split(','),
-          direction: stop.direction.replace('B', ''),
+          id: stop.systemstop,
+          title: stop.public_nam,
+          latlng: { latitude: parseFloat(stop.point_x), longitude: parseFloat(stop.point_y) },
+          lines: stop.routesstpg.split(','),
+          direction: stop.dir.replace('B', ''),
         }
       ))
     }
