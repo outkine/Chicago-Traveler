@@ -20,10 +20,10 @@ String.prototype.capitalize = function () {
 
 export default class App extends React.Component {
   Navigator = TabNavigator({
-    search: { screen: scenes.search },
-    all: { screen: scenes.all },
     starred: { screen: scenes.favorites },
     map: { screen: scenes.map },
+    search: { screen: scenes.search },
+    all: { screen: scenes.all },
   }, {
     lazy: true,
     tabBarOptions: {

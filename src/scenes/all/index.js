@@ -42,6 +42,7 @@ export default class All extends React.Component {
           <Scroll
             type={this.state.type}
             toggleFavorite={this.props.screenProps.toggleFavorite}
+            favorites={this.props.screenProps.favorites}
           />
         }
       </View>

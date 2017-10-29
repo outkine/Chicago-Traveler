@@ -5,6 +5,7 @@ import Stop from 'src/components/Stop'
 import * as stops from 'mycta/info/stops'
 import { fonts } from 'src/styles/constants'
 
+// TODO: make it so that when you unstar a stop it still remains in the view
 export default function Favorites ({ screenProps: { favorites, toggleFavorite } }) {
   return (
     <ScrollView>
@@ -24,6 +25,7 @@ export default function Favorites ({ screenProps: { favorites, toggleFavorite } 
                     <Stop
                       immediate
                       toggleFavorite={toggleFavorite}
+                      favorites={favorites}
                       type={type}
                       stop={stops[type][id]}
                     />

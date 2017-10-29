@@ -13,6 +13,7 @@ export default class Scroll extends React.Component {
   render () {
     return (
       <ScrollView style={{ padding: 10 }}>
+        <View style={{ height: 10 }} />
         {
           Object.keys(lines[this.props.type]).map((lineName) => (
             <View key={lineName} style={{ flex: 1 }}>
@@ -36,6 +37,7 @@ export default class Scroll extends React.Component {
                     <View key={stopId}>
                       <Stop
                         toggleFavorite={this.props.toggleFavorite}
+                        favorites={this.props.favorites}
                         type={this.props.type}
                         stop={stops[this.props.type][stopId]}
                       />

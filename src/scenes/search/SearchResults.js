@@ -5,9 +5,10 @@ import Stop from 'src/components/Stop'
 import * as stops from 'mycta/info/stops'
 import { fonts } from 'src/styles/constants'
 
-export default function SearchResults ({ search, toggleFavorite }) {
+export default function SearchResults ({ search, toggleFavorite, favorites }) {
   return (
     <ScrollView>
+      <View style={{ height: 10 }} />
       {
         ['train', 'bus'].map(type => {
           const results = Object.values(stops[type])
@@ -29,6 +30,7 @@ export default function SearchResults ({ search, toggleFavorite }) {
                     <View key={stop.id}>
                       <Stop
                         toggleFavorite={toggleFavorite}
+                        favorites={favorites}
                         type={type}
                         stop={stop}
                       />
@@ -39,6 +41,7 @@ export default function SearchResults ({ search, toggleFavorite }) {
           )
         })
       }
+      <View style={{ height: 10 }} />
     </ScrollView>
   )
 }

@@ -55,6 +55,7 @@ export default class Indicator extends React.Component {
           stop={this.props.stop}
           type={this.props.stop.type}
           toggleFavorite={this.props.toggleFavorite}
+          favorites={this.props.favorites}
         />
       </Animated.View>
     )

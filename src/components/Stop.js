@@ -5,7 +5,6 @@ import { getPredictions } from 'mycta/jsclient'
 import styles from './Stop.css'
 import ReloadButton from './ReloadButton'
 import StarButton from './StarButton'
-import Loading from './Loading'
 
 export default class Stop extends React.Component {
   state = { predictions: [], active: false }
@@ -24,6 +23,9 @@ export default class Stop extends React.Component {
         <Text style={styles.title}>
           {this.props.stop.title}
         </Text>
+        <Text style={styles.subtitle}>
+          {this.props.stop.lines.join(', ')}
+        </Text>
         { this.active &&
           <Text style={styles.predictions}>
             {this.state.predictions.length > 0 ? this.state.predictions.join('\n') : 'Loading...'}
@@ -35,6 +37,7 @@ export default class Stop extends React.Component {
             style={styles.button}
           />
           <StarButton
+            fullStar={this.props.favorites[this.props.type].includes(this.props.stop.id)}
             onPress={() => this.props.toggleFavorite(this.props.type, this.props.stop.id)}
             style={styles.button}
           />

@@ -22,6 +22,7 @@ export default class MainMap extends React.Component {
             <Indicator
               {...this.state}
               toggleFavorite={this.props.screenProps.toggleFavorite}
+              favorites={this.props.screenProps.favorites}
             />
           )
         }

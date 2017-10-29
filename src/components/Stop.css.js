@@ -13,6 +13,9 @@ export default StyleSheet.create({
   },
   title: {
     ...fonts[1],
+  },
+  subtitle: {
+    ...fonts[2],
     marginBottom: 10,
   },
   predictions: {

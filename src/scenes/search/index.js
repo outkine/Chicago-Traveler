@@ -15,7 +15,7 @@ export default class All extends React.Component {
           value={this.state.search}
           style={{
             width: '90%',
-            margin: 10,
+            marginTop: 10,
             backgroundColor: colors.black[0],
             elevation: 4,
             alignSelf: 'center',
@@ -26,6 +26,7 @@ export default class All extends React.Component {
             <SearchResults
               search={this.state.search.toLowerCase()}
               toggleFavorite={this.props.screenProps.toggleFavorite}
+              favrotes={this.props.screenProps.favorites}
             />
         }
       </View>
