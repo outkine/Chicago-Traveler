@@ -20,14 +20,14 @@ export default function Favorites ({ screenProps: { favorites, toggleFavorite } 
                 {type.capitalize()}
               </Text>
               {
-                favorites[type].map((id) =>
-                  <View key={id}>
+                favorites[type].map((title) =>
+                  <View key={title}>
                     <Stop
                       immediate
                       toggleFavorite={toggleFavorite}
                       favorites={favorites}
                       type={type}
-                      stop={stops[type][id]}
+                      stop={stops[type][title]}
                     />
                   </View>
                 )

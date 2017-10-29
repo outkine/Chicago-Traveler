@@ -42,7 +42,7 @@ export default class Map extends React.Component {
               console.log(stop)
               return (
                 <MapView.Marker
-                  key={stop.id}
+                  key={stop.title}
                   coordinate={stop.latlng}
                   onPress={() => this.props.onMarkerPress(stop, this.state.isTypeTrain ? 'train' : 'bus')}
                 />

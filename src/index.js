@@ -86,14 +86,14 @@ export default class App extends React.Component {
     )
   }
 
-  toggleFavorite = (type, id) => {
+  toggleFavorite = (type, title) => {
     console.log('FAVORITES TOGGLED')
     const favorites = this.state.favorites[type]
 
-    if (!favorites.includes(id)) {
-      favorites.push(id)
+    if (!favorites.includes(title)) {
+      favorites.push(title)
     } else {
-      favorites.splice(favorites.indexOf(id), 1)
+      favorites.splice(favorites.indexOf(title), 1)
     }
 
     this.forceUpdate()

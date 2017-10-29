@@ -33,15 +33,19 @@ export default class Scroll extends React.Component {
               />
 
               { lineName === this.state.lineName &&
-                  lines[this.props.type][lineName].map((stopId) =>
-                    <View key={stopId}>
+                  lines[this.props.type][lineName].map((stopTitle) => {
+                    console.log(stopTitle, stops[this.props.type], stops[this.props.type][stopTitle])
+                    return (
+                    <View key={stopTitle}>
                       <Stop
                         toggleFavorite={this.props.toggleFavorite}
                         favorites={this.props.favorites}
                         type={this.props.type}
-                        stop={stops[this.props.type][stopId]}
+                        stop={stops[this.props.type][stopTitle]}
                       />
                     </View>
+                    )
+                  }
                   )
               }
             </View>

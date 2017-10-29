@@ -13,7 +13,8 @@ export default function SearchResults ({ search, toggleFavorite, favorites }) {
         ['train', 'bus'].map(type => {
           const results = Object.values(stops[type])
             .filter(stop => (
-              stop.id.includes(search) || stop.title.toLowerCase().includes(search)
+              Object.values(stop.directions).reduce((acc, id) => !acc ? id.includes(search) : true, false) ||
+              stop.title.toLowerCase().includes(search)
             ))
 
           return (
@@ -27,7 +28,7 @@ export default function SearchResults ({ search, toggleFavorite, favorites }) {
                 </Text>
                 {
                   results.map(stop =>
-                    <View key={stop.id}>
+                    <View key={stop.title}>
                       <Stop
                         toggleFavorite={toggleFavorite}
                         favorites={favorites}
