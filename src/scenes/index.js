@@ -1,3 +1,4 @@
 export favorites from './favorites'
 export map from './map'
-export nearby from './nearby'
+export all from './all'
+export search from './search'

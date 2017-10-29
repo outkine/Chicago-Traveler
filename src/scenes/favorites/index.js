@@ -9,25 +9,26 @@ export default function Favorites ({ screenProps: { favorites, toggleFavorite } 
   return (
     <View style={styles.back}>
       {
-        Object.keys(favorites).map(type => (
-          <View key={type} style={styles.typeSection}>
-            <Text style={styles.typeTitle}>
-              {type.capitalize()}
-            </Text>
-            {
-              favorites[type].map((id) => (
-                <View key={id}>
-                  <Stop
-                    immediate
-                    toggleFavorite={toggleFavorite}
-                    type={type}
-                    stop={stops[type][id]}
-                  />
-                </View>
-              ))
-            }
-          </View>
-        ))
+        Object.keys(favorites).map(type =>
+          favorites[type].length > 0 &&
+            <View key={type} style={styles.typeSection}>
+              <Text style={styles.typeTitle}>
+                {type.capitalize()}
+              </Text>
+              {
+                favorites[type].map((id) =>
+                  <View key={id}>
+                    <Stop
+                      immediate
+                      toggleFavorite={toggleFavorite}
+                      type={type}
+                      stop={stops[type][id]}
+                    />
+                  </View>
+                )
+              }
+            </View>
+        )
       }
     </View>
   )

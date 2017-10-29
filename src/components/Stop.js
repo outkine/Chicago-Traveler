@@ -32,9 +32,11 @@ export default class Stop extends React.Component {
         <View style={styles.buttonRow}>
           <ReloadButton
             onPress={() => this.getPredictions()}
+            style={styles.button}
           />
           <StarButton
             onPress={() => this.props.toggleFavorite(this.props.type, this.props.stop.id)}
+            style={styles.button}
           />
         </View>
       </View>

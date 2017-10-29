@@ -47,6 +47,9 @@ export default class Map extends React.Component {
             onValueChange={(isTypeTrain) => this.setState({ isTypeTrain })}
             value={this.state.isTypeTrain}
             style={styles.typeSwitch}
+            onTintColor='#870000'
+            thumbTintColor='#f9683a'
+            tintColor='#a4a4a4'
           />
         </View>
 
@@ -60,7 +63,6 @@ export default class Map extends React.Component {
       <MapView.Marker
         key={stop.id}
         coordinate={stop.latlng}
-        pinColor={type === 'train' ? 'red' : 'blue'}
         onPress={() => this.props.onMarkerPress(stop, type)}
       />
     )

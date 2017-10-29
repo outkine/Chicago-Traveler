@@ -1,9 +1,9 @@
 import React from 'react'
-import { View, TouchableNativeFeedback, Image } from 'react-native'
+import { View, TouchableNativeFeedback, Text } from 'react-native'
 
 import { colors } from 'src/styles/constants'
 
-export default function ImageButton ({ onPress, source, style }) {
+export default function Button ({ onPress, title, style }) {
   return (
     <TouchableNativeFeedback
       onPress={onPress}
@@ -15,19 +15,18 @@ export default function ImageButton ({ onPress, source, style }) {
           padding: 5,
           borderRadius: 5,
           elevation: 12,
-          backgroundColor: '#870000',
-          alignSelf: 'center',
+          backgroundColor: '#ef6c00'
         }, style]}
       >
-        <Image
-          resizeMode='contain'
+        <Text
           style={{
-            flex: 1,
-            height: undefined,
-            width: undefined,
+            color: 'white',
+            textAlign: 'center',
+            fontWeight: 'bold',
           }}
-          source={source}
-        />
+        >
+          {title.toUpperCase()}
+        </Text>
       </View>
     </TouchableNativeFeedback>
   )

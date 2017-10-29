@@ -78,13 +78,13 @@ function processLocation (location) {
 }
 
 const L_COLORS = {
-  red: 'RED',
-  blue: 'BLUE',
-  g: 'GREEN',
-  brn: 'BROWN',
-  p: 'PURPLE',
-  pnk: 'PINK',
-  o: 'ORANGE',
+  red: 'red',
+  blue: 'blue',
+  g: 'green',
+  brn: 'brown',
+  p: 'purple',
+  pnk: 'pink',
+  o: 'orange',
 }
 function generateTrainLines (stop) {
   const lines = []

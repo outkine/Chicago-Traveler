@@ -9,7 +9,7 @@ export default StyleSheet.create({
   },
   typeSwitchText: {
     textAlign: 'center',
-    color: 'rgb(100, 100, 100)'
+    color: 'rgb(50, 50, 50)'
   },
   typeSwitch: {
   },

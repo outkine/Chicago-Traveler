@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { View, ActivityIndicator } from 'react-native'
 
 export default function Loading () {
   return (
@@ -7,11 +7,9 @@ export default function Loading () {
       height: '100%',
       width: '100%',
       position: 'absolute',
-      backgroundColor: '#ffffff',
+      justifyContent: 'center'
     }}>
-      <Text>
-        Loading...
-      </Text>
+      <ActivityIndicator size='large' />
     </View>
   )
 }

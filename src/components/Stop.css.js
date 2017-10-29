@@ -28,5 +28,8 @@ export default StyleSheet.create({
   buttonRow: {
     flexDirection: 'row',
     height: 40,
+  },
+  button: {
+    marginHorizontal: 20,
   }
 })
