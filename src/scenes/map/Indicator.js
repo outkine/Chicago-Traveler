@@ -1,6 +1,8 @@
 import React from 'react'
 import { Animated, Text, Button } from 'react-native'
 
+import Stop from 'src/components/Stop'
+
 export default class Indicator extends React.Component {
   state = { translateY: new Animated.Value(1) }
 
@@ -35,7 +37,7 @@ export default class Indicator extends React.Component {
   }
 
   render () {
-    console.log('ANIMATION', this.state.translateY._value, 'PREDICTIONS', this.props.predictions)
+    console.log('ANIMATION', this.state.translateY._value)
     return (
       <Animated.View
         style={{
@@ -46,23 +48,13 @@ export default class Indicator extends React.Component {
           }),
           right: 0,
           left: 0,
-          backgroundColor: '#ffffff',
-          width: '100%',
-          padding: 10,
         }}
       >
-        <Text
-          style={{
-            fontWeight: 'bold',
-            textAlign: 'center',
-          }}
-        >{this.props.stop.title}</Text>
-        <Text>
-          {this.props.predictions.length > 0 ? this.props.predictions.join('\n') : 'Loading...'}
-        </Text>
-        <Button
-          title='favorite'
-          onPress={() => this.props.toggleFavorite(this.props.stop.type, this.props.stop.id)}
+        <Stop
+          immediate
+          stop={this.props.stop}
+          type={this.props.stop.type}
+          toggleFavorite={this.props.toggleFavorite}
         />
       </Animated.View>
     )

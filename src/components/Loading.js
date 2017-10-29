@@ -7,7 +7,8 @@ export default function Loading () {
       height: '100%',
       width: '100%',
       position: 'absolute',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      backgroundColor: 'white'
     }}>
       <ActivityIndicator size='large' />
     </View>

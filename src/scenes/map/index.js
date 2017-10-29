@@ -3,18 +3,19 @@ import { View } from 'react-native'
 
 import Map from './Map'
 import Indicator from './Indicator'
-import { getPredictions } from 'mycta/jsclient'
 
 export default class MainMap extends React.Component {
-  state = { stop: null, predictions: [], closing: false }
+  state = { stop: null, closing: false }
 
   render () {
     return (
       <View style={{ height: '100%' }}>
         <Map
           location={this.props.screenProps.location}
-          onMarkerPress={this.onMarkerPress}
-          onMapPress={() => this.setState({ closing: true, predictions: [] })}
+          onMarkerPress={(stop, type) =>
+            this.setState({ stop: { ...stop, type: type }, closing: false })
+          }
+          onMapPress={() => this.setState({ closing: true })}
         />
         {
           this.state.stop && (
@@ -26,14 +27,5 @@ export default class MainMap extends React.Component {
         }
       </View>
     )
-  }
-
-  onMarkerPress = (stop, type) => {
-    console.log('PRESSED')
-    this.setState({ stop: { ...stop, type: type }, closing: false, predictions: [] })
-    getPredictions(type, stop.id, (data) => {
-      this.setState({ predictions: data })
-      console.log('GOT PREDICTIONS', data)
-    })
   }
 }

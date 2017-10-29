@@ -5,16 +5,16 @@ import { getPredictions } from 'mycta/jsclient'
 import styles from './Stop.css'
 import ReloadButton from './ReloadButton'
 import StarButton from './StarButton'
-import ImageButton from './ImageButton'
+import Loading from './Loading'
 
 export default class Stop extends React.Component {
-  state = { predictions: [] }
+  state = { predictions: [], active: false }
 
   constructor (props) {
     super(props)
 
     if (this.props.immediate) {
-      this.getPredictions()
+      this.reload(false)
     }
   }
 
@@ -31,7 +31,7 @@ export default class Stop extends React.Component {
         }
         <View style={styles.buttonRow}>
           <ReloadButton
-            onPress={() => this.getPredictions()}
+            onPress={() => this.reload()}
             style={styles.button}
           />
           <StarButton
@@ -43,10 +43,15 @@ export default class Stop extends React.Component {
     )
   }
 
-  getPredictions = () => {
+  componentDidUpdate (prevProps) {
+    if (prevProps.stop.id !== this.props.stop.id) this.reload()
+  }
+
+  reload = (update = true) => {
+    if (update) this.setState({ predictions: [] })
     this.active = true
-    getPredictions(this.props.type, this.props.stop.id, (predictions) =>
-      this.setState({ predictions })
+    getPredictions(this.props.type, this.props.stop.id, (predictions, error) =>
+      this.setState({ predictions: error ? [error] : predictions })
     )
   }
 }

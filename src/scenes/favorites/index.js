@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { ScrollView, View, Text } from 'react-native'
 
 import Stop from 'src/components/Stop'
 import * as stops from 'mycta/info/stops'
@@ -7,7 +7,7 @@ import { fonts } from 'src/styles/constants'
 
 export default function Favorites ({ screenProps: { favorites, toggleFavorite } }) {
   return (
-    <View>
+    <ScrollView>
       {
         Object.keys(favorites).map(type =>
           favorites[type].length > 0 &&
@@ -33,6 +33,6 @@ export default function Favorites ({ screenProps: { favorites, toggleFavorite } 
             </View>
         )
       }
-    </View>
+    </ScrollView>
   )
 }

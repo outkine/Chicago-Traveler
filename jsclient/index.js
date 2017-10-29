@@ -4,30 +4,38 @@ import moment from 'moment'
 
 export function getPredictions (type, id, callback) {
   if (type === 'train') {
-    trainRequest('ttarrivals', { stpid: id }, (data) => callback(
-      data.errNm ? [data.errNm] : data.eta
-        .map(prediction => moment(prediction.arrT).fromNow(true))
-    ))
+    trainRequest('ttarrivals', { stpid: id }, (data, error) => {
+      if (error) callback(null, error)
+      else if ('eta' in data) {
+        callback(data.eta.map(prediction => moment(prediction.arrT).fromNow(true)))
+      } else callback(null, 'no arrival times')
+    })
   } else {
-    busRequest('getpredictions', { stpid: id }, (data) => callback(
-      data.error ? [data.error[0].msg] : data.prd
-        .map(prediction => moment(prediction.prdtm, 'YYYYMMDD HH:mm').fromNow(true))
-    ))
+    busRequest('getpredictions', { stpid: id }, (data, error) => {
+      if (error) callback(null, error)
+      else if ('prd' in data) {
+        callback(data.prd.map(prediction => moment(prediction.prdtm, 'YYYYMMDD HH:mm').fromNow(true)))
+      } else callback(null, 'no arrival times')
+    })
   }
 }
 
 function get (uri, callback) {
   fetch(uri)
-    .then(resp => resp.json())
+    .then(resp => { console.log(resp); return resp.json() })
     .then(data => { console.log(data); callback(data) })
 }
 
 function busRequest (type, parameters, callback) {
   get(`http://ctabustracker.com/bustime/api/v2/${type}?` + stringify({
     key: busKey,
-    format: 'JSON',
+    format: 'json',
     ...parameters
-  }), data => callback(data['bustime-response']))
+  }), data => {
+    data = data['bustime-response']
+    if (data.error) callback(null, data.error[0].msg)
+    else callback(data)
+  })
 }
 
 function trainRequest (type, parameters, callback) {
@@ -35,5 +43,9 @@ function trainRequest (type, parameters, callback) {
     key: trainKey,
     outputType: 'JSON',
     ...parameters
-  }), data => callback(data.ctatt))
+  }), data => {
+    data = data.ctatt
+    if (data.errNm) callback(null, data.errNm)
+    else callback(data)
+  })
 }
