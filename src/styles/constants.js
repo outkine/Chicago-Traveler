@@ -1,5 +1,10 @@
 export const colors = {
-  yellow: '#fdd835',
+  yellow: ['#fff263', '#f9a825', '#c49000'],
+  blue: ['#63a4ff', '#1976d2', '#004ba0'],
+  black: ['rgb(250, 250, 250)', 'rgb(230, 230, 230)']
+}
+
+export const ctaColors = {
   blue: '#1976d2',
   red: '#c62828',
   green: '#388e3c',

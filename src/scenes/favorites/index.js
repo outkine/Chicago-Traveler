@@ -3,16 +3,19 @@ import { View, Text } from 'react-native'
 
 import Stop from 'src/components/Stop'
 import * as stops from 'mycta/info/stops'
-import styles from './Favorites.css'
+import { fonts } from 'src/styles/constants'
 
 export default function Favorites ({ screenProps: { favorites, toggleFavorite } }) {
   return (
-    <View style={styles.back}>
+    <View>
       {
         Object.keys(favorites).map(type =>
           favorites[type].length > 0 &&
-            <View key={type} style={styles.typeSection}>
-              <Text style={styles.typeTitle}>
+            <View key={type}>
+              <Text style={{
+                ...fonts[0],
+                marginTop: 15,
+              }}>
                 {type.capitalize()}
               </Text>
               {

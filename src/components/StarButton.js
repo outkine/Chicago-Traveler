@@ -8,7 +8,7 @@ export default function StarButton ({ onPress, style }) {
     <ImageButton
       source={require('mycta/assets/star.png')}
       onPress={onPress}
-      style={[{ backgroundColor: colors.yellow }, style]}
+      style={[{ backgroundColor: colors.yellow[1] }, style]}
     />
   )
 }

@@ -15,7 +15,7 @@ export default function ImageButton ({ onPress, source, style }) {
           padding: 5,
           borderRadius: 5,
           elevation: 12,
-          backgroundColor: '#870000',
+          backgroundColor: colors.blue[1],
           alignSelf: 'center',
         }, style]}
       >

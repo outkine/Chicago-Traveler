@@ -5,19 +5,17 @@ import Button from 'src/components/Button'
 import * as lines from 'mycta/info/lines'
 import * as stops from 'mycta/info/stops'
 import Stop from 'src/components/Stop'
-import { colors } from 'src/styles/constants'
+import { ctaColors } from 'src/styles/constants'
 
 export default class Scroll extends React.Component {
   state = { lineName: '' }
 
   render () {
     return (
-      <ScrollView style={{
-        paddingVertical: 10,
-      }}>
+      <ScrollView style={{ padding: 10 }}>
         {
           Object.keys(lines[this.props.type]).map((lineName) => (
-            <View key={lineName}>
+            <View key={lineName} style={{ flex: 1 }}>
               <Button
                 onPress={() => this.setState({
                   lineName: this.state.lineName === lineName ? '' : lineName
@@ -29,7 +27,7 @@ export default class Scroll extends React.Component {
                   margin: 3,
                   alignSelf: 'center',
                 }, this.props.type === 'train' && {
-                  backgroundColor: colors[lineName]
+                  backgroundColor: ctaColors[lineName]
                 }]}
               />
 
@@ -47,6 +45,7 @@ export default class Scroll extends React.Component {
             </View>
           ))
         }
+        <View style={{ height: 20 }} />
       </ScrollView>
     )
   }

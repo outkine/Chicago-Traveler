@@ -7,7 +7,7 @@ import { View, Switch, Text } from 'react-native'
 
 import * as stops from 'mycta/info/stops'
 import Loading from 'src/components/Loading'
-import styles from './Map.css'
+import { colors } from 'src/styles/constants'
 
 export default class Map extends React.Component {
   state = {
@@ -35,36 +35,37 @@ export default class Map extends React.Component {
         >
           {
             Object.values(stops[this.state.isTypeTrain ? 'train' : 'bus']).map(stop =>
-              this.generateMarker(stop, this.state.isTypeTrain ? 'train' : 'bus')
+              <MapView.Marker
+                key={stop.id}
+                coordinate={stop.latlng}
+                onPress={() => this.props.onMarkerPress(stop, this.state.isTypeTrain ? 'train' : 'bus')}
+              />
             )
           }
         </MapView>
-        <View style={styles.typeSwitchBack}>
-          <Text style={styles.typeSwitchText}>
+        <View style={{
+          backgroundColor: 'white',
+          alignSelf: 'flex-end',
+          margin: 10,
+          borderRadius: 5,
+        }}>
+          <Text style={{
+            textAlign: 'center',
+            color: colors.black[2],
+          }}>
             {this.state.isTypeTrain ? 'train' : 'bus'}
           </Text>
           <Switch
             onValueChange={(isTypeTrain) => this.setState({ isTypeTrain })}
             value={this.state.isTypeTrain}
-            style={styles.typeSwitch}
-            onTintColor='#870000'
-            thumbTintColor='#f9683a'
-            tintColor='#a4a4a4'
+            onTintColor={colors.yellow[2]}
+            thumbTintColor={colors.yellow[1]}
+            tintColor={colors.black[1]}
           />
         </View>
 
         { !this.state.ready && <Loading /> }
       </View>
-    )
-  }
-
-  generateMarker = (stop, type) => {
-    return (
-      <MapView.Marker
-        key={stop.id}
-        coordinate={stop.latlng}
-        onPress={() => this.props.onMarkerPress(stop, type)}
-      />
     )
   }
 }

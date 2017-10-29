@@ -15,7 +15,7 @@ export default function Button ({ onPress, title, style }) {
           padding: 5,
           borderRadius: 5,
           elevation: 12,
-          backgroundColor: '#ef6c00'
+          backgroundColor: colors.blue[1]
         }, style]}
       >
         <Text

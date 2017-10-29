@@ -5,9 +5,6 @@ import { fonts } from 'src/styles/constants'
 export default StyleSheet.create({
   back: {
     width: '90%',
-    shadowColor: 'rgb(250, 250, 250)',
-    shadowRadius: 3,
-    shadowOpacity: 0.3,
     elevation: 2,
     backgroundColor: 'white',
     padding: 10,
