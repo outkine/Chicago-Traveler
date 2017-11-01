@@ -6,6 +6,7 @@ import * as stops from 'mycta/info/stops'
 import { fonts } from 'src/styles/constants'
 
 export default function SearchResults ({ search, toggleFavorite, favorites }) {
+  console.log('search', search)
   return (
     <ScrollView>
       <View style={{ height: 10 }} />
@@ -16,9 +17,8 @@ export default function SearchResults ({ search, toggleFavorite, favorites }) {
               Object.values(stop.directions).reduce((acc, id) => acc || id.includes(search), false) ||
               stop.title.toLowerCase().includes(search)
             ))
-
-          return (
-            results.length > 0 &&
+          if (results.length > 0 && results.length < 50) {
+            return (
               <View key={type}>
                 <Text style={{
                   ...fonts[0],
@@ -39,7 +39,8 @@ export default function SearchResults ({ search, toggleFavorite, favorites }) {
                   )
                 }
               </View>
-          )
+            )
+          }
         })
       }
       <View style={{ height: 10 }} />
