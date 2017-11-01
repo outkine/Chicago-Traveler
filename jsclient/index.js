@@ -2,25 +2,19 @@ import { busKey, trainKey } from 'mycta/keys'
 import { stringify } from 'querystring'
 import moment from 'moment'
 
-moment.updateLocale('en', {
-  relativeTime : {
-    s: 'arriving',
-  }
-})
-
 export function getPredictions (type, id, callback) {
   if (type === 'train') {
     trainRequest('ttarrivals', { stpid: id }, (data, error) => {
       if (error) callback(null, error)
       else if ('eta' in data) {
-        callback(data.eta.map(prediction => moment(prediction.arrT).fromNow(true)))
+        callback(data.eta.map(prediction => moment(prediction.arrT)))
       } else callback(null, 'no arrival times')
     })
   } else {
     busRequest('getpredictions', { stpid: id }, (data, error) => {
       if (error) callback(null, error)
       else if ('prd' in data) {
-        callback(data.prd.map(prediction => moment(prediction.prdtm, 'YYYYMMDD HH:mm').fromNow(true)))
+        callback(data.prd.map(prediction => moment(prediction.prdtm, 'YYYYMMDD HH:mm')))
       } else callback(null, 'no arrival times')
     })
   }
@@ -28,8 +22,8 @@ export function getPredictions (type, id, callback) {
 
 function get (uri, callback) {
   fetch(uri)
-    .then(resp => { console.log(resp); return resp.json() })
-    .then(data => { console.log(data); callback(data) })
+    .then(resp => resp.json())
+    .then(data => callback(data))
 }
 
 function busRequest (type, parameters, callback) {

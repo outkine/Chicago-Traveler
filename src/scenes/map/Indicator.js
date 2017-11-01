@@ -8,7 +8,7 @@ export default class Indicator extends React.Component {
 
   constructor (props) {
     super(props)
-    console.log('INITIALIZED')
+    // console.log('INITIALIZED')
     this.animation = Animated.timing(
       this.state.translateY,
       {
@@ -19,7 +19,7 @@ export default class Indicator extends React.Component {
   }
 
   toggleAnimation () {
-    console.log('RESETING ANIMATION')
+    // console.log('RESETING ANIMATION')
     const value = this.props.closing ? 0 : 1
     this.animation.stop()
     this.animation = Animated.timing(
@@ -32,12 +32,13 @@ export default class Indicator extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    console.log('UPDATED', this.props.closing !== nextProps.closing)
+    // console.log('UPDATED', this.props.closing !== nextProps.closing)
     if (this.props.closing !== nextProps.closing) this.toggleAnimation()
   }
 
   render () {
-    console.log('ANIMATION', this.state.translateY._value)
+    // console.log('ANIMATION', this.state.translateY._value)
+    // console.log('INDICATOR RENDER')
     return (
       <Animated.View
         style={{

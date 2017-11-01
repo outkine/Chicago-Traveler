@@ -20,7 +20,7 @@ const L_COLORS = {
 function generateTrainLines (stop) {
   const lines = []
   for (let color in L_COLORS) {
-    if (stop[color] === 'true') lines.push(L_COLORS[color])
+    if (stop[color] === 'true' && !lines.includes(L_COLORS[color])) lines.push(L_COLORS[color])
   }
   return lines
 }

@@ -1,26 +1,51 @@
 import React from 'react'
 import MapView from 'react-native-maps'
-import { View, Switch, Text } from 'react-native'
+import { View } from 'react-native'
+import { Permissions, Location } from 'expo'
 
 // shoutout to ya boy kenny G
 // oooh oooh Imma have to say yes
 
 import * as stops from 'mycta/info/stops'
 import Loading from 'src/components/Loading'
-import { colors, fonts } from 'src/styles/constants'
+import MapSwitch from './MapSwitch'
 
 export default class Map extends React.Component {
   state = {
     region: {
       latitudeDelta: 0.4,
       longitudeDelta: 0.4,
-      ...this.props.location,
+      latitude: 41.89,
+      longitude: -87.6923,
     },
     ready: false,
     isTypeTrain: true
   }
 
+  constructor (props) {
+    super(props)
+
+    Permissions.askAsync(Permissions.LOCATION)
+      .then(({ status }) => {
+        // console.log(status)
+        if (status === 'granted') {
+          Location.getCurrentPositionAsync({ enableHighAccuracy: true })
+            .then((results) => {
+              this.setState({
+                region: {
+                  ...results.coords,
+                  latitudeDelta: 0.03,
+                  longitudeDelta: 0.03,
+                }
+              })
+            })
+        }
+      })
+  }
+
   render () {
+    // console.log(this.state)
+    // console.log('MAP RENDER', this.state)
     return (
       <View style={{ height: '100%' }}>
         <MapView
@@ -47,26 +72,11 @@ export default class Map extends React.Component {
             )
           }
         </MapView>
-        <View style={{
-          backgroundColor: 'white',
-          alignSelf: 'flex-end',
-          margin: 10,
-          borderRadius: 3,
-          elevation: 2,
-        }}>
-          <Text style={{
-            ...fonts[3]
-          }}>
-            {this.state.isTypeTrain ? 'Train' : 'Bus'}
-          </Text>
-          <Switch
-            onValueChange={(isTypeTrain) => this.setState({ isTypeTrain })}
-            value={this.state.isTypeTrain}
-            onTintColor={colors.yellow[2]}
-            thumbTintColor={colors.yellow[1]}
-            tintColor={colors.black[1]}
-          />
-        </View>
+
+        <MapSwitch
+          value={this.state.isTypeTrain}
+          onChange={isTypeTrain => this.setState({ isTypeTrain })}
+        />
 
         { !this.state.ready && <Loading /> }
       </View>

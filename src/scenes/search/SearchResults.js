@@ -13,7 +13,7 @@ export default function SearchResults ({ search, toggleFavorite, favorites }) {
         ['train', 'bus'].map(type => {
           const results = Object.values(stops[type])
             .filter(stop => (
-              Object.values(stop.directions).reduce((acc, id) => !acc ? id.includes(search) : true, false) ||
+              Object.values(stop.directions).reduce((acc, id) => acc || id.includes(search), false) ||
               stop.title.toLowerCase().includes(search)
             ))
 

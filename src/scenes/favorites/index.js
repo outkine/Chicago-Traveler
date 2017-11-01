@@ -1,25 +1,16 @@
 import React from 'react'
-import { ScrollView, View, Text, RefreshControl } from 'react-native'
+import { /*SectionList,*/ ScrollView, View, Text, RefreshControl } from 'react-native'
 
 import Stop from 'src/components/Stop'
 import * as stops from 'mycta/info/stops'
 import { fonts } from 'src/styles/constants'
 
-// TODO: make it so that when you unstar a stop it still remains in the view
 export default class Favorites extends React.Component {
   stops = []
   state = { refreshing: false }
 
   render () {
     const { favorites, toggleFavorite } = this.props.screenProps
-
-    if (Object.keys(favorites).length === 0) {
-      return (
-        <Text>
-          No starred stops. Go add some!
-        </Text>
-      )
-    }
 
     return (
       // <SectionList
@@ -31,21 +22,23 @@ export default class Favorites extends React.Component {
       //       {section.type.capitalize()}
       //     </Text>
       //   }
-      //   renderItem={({ item }) =>
+      //   renderItem={({ item, section }) =>
       //     <Stop
       //       immediate
       //       toggleFavorite={toggleFavorite}
       //       favorites={favorites}
-      //       type={type}
-      //       stop={stops[type][title]}
+      //       type={section.type}
+      //       stop={stops[section.type][item]}
       //     />
       //   }
+      //   keyExtractor={key => key}
       //   sections={
-      //     Object.keys(favorites).map(type =>
-      //       {data: }
-      //     )
+      //     Object.keys(favorites).map(type => ({
+      //       type, data: favorites[type]
+      //     }))
       //   }
       // />
+
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -72,7 +65,10 @@ export default class Favorites extends React.Component {
                   <View key={title}>
                     <Stop
                       immediate
-                      toggleFavorite={toggleFavorite}
+                      toggleFavorite={(type, title) => {
+                        toggleFavorite(type, title)
+                        this.setState({ deletedStops: [...this.state.deletedStops, title] })
+                      }}
                       favorites={favorites}
                       type={type}
                       stop={stops[type][title]}
@@ -86,5 +82,11 @@ export default class Favorites extends React.Component {
         }
       </ScrollView>
     )
+  }
+
+  shouldComponentUpdate ({ screenProps: { favorites } }) {
+    return Object.keys(favorites).reduce((bool, type) => (
+      bool || favorites[type].length > this.props.screenProps.favorites[type]
+    ), false)
   }
 }

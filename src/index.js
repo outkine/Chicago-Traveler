@@ -1,18 +1,10 @@
 import React from 'react'
 import { AsyncStorage, View } from 'react-native'
 import { TabNavigator } from 'react-navigation'
-import { Location, Constants, Permissions } from 'expo'
+import { Constants } from 'expo'
 
-import Loading from 'src/components/Loading'
 import * as scenes from './scenes'
 import { colors } from 'src/styles/constants'
-
-const DEFAULT_LOCATION = {
-  location: {
-    latitude: 41.89,
-    longitude: -87.6923,
-  }
-}
 
 String.prototype.capitalize = function () {
   return this.charAt(0).toUpperCase() + this.slice(1)
@@ -36,78 +28,48 @@ export default class App extends React.Component {
     }
   })
 
-  state = { favorites: { train: [], bus: [] }, location: null }
+  state = { favorites: { train: [], bus: [] } }
 
   constructor (props) {
     super(props)
 
-    AsyncStorage.setItem('trainFavorites', JSON.stringify([]), (err) => {
-      console.log(err)
-    })
+    // AsyncStorage.setItem('trainFavorites', '[]')
+    // AsyncStorage.setItem('busFavorites', '[]')
 
     AsyncStorage.getItem('trainFavorites', (err, trainFavorites) => {
-      console.log('train', trainFavorites, err)
+      // console.log('train', trainFavorites, err)
       if (err) console.log(err)
       if (trainFavorites) this.setState({ favorites: { ...this.state.favorites, train: JSON.parse(trainFavorites) } })
     })
 
     AsyncStorage.getItem('busFavorites', (err, busFavorites) => {
-      console.log('bus', busFavorites, err)
+      // console.log('bus', busFavorites, err)
       if (err) console.log(err)
       if (busFavorites) this.setState({ favorites: { ...this.state.favorites, bus: JSON.parse(busFavorites) } })
     })
-
-    Permissions.askAsync(Permissions.LOCATION)
-      .then(({ status }) => {
-        console.log(status)
-        if (status !== 'granted') {
-          this.setState(DEFAULT_LOCATION)
-        } else {
-          Location.getCurrentPositionAsync({ enableHighAccuracy: true })
-            .then((results) => {
-              this.setState({
-                location: {
-                  ...results.coords,
-                  latitudeDelta: 0.03,
-                  longitudeDelta: 0.03,
-                }
-              })
-            })
-            .catch((err) => {
-              console.log(err)
-              this.setState(DEFAULT_LOCATION)
-            })
-        }
-      })
   }
 
   render () {
-    console.log(this.state)
-    if (!this.state.location) {
-      return <Loading />
-    }
+    // console.log(this.state)
     return (
       <View style={{ height: '100%', paddingTop: Constants.statusBarHeight }}>
         <this.Navigator
-          screenProps={{ ...this.state, toggleFavorite: this.toggleFavorite }}
+          screenProps={{ favorites: this.state.favorites, toggleFavorite: this.toggleFavorite }}
         />
       </View>
     )
   }
 
   toggleFavorite = (type, title) => {
-    console.log('FAVORITES TOGGLED')
-    const favorites = this.state.favorites[type]
-
-    if (!favorites.includes(title)) {
-      favorites.push(title)
+    // console.log(this.state, type, title)
+    if (!this.state.favorites[type].includes(title)) {
+      this.setState({ favorites: { ...this.state.favorites, [type]: [...this.state.favorites[type], title] } })
     } else {
-      favorites.splice(favorites.indexOf(title), 1)
+      this.setState({ favorites: { ...this.state.favorites, [type]: this.state.favorites[type].splice(this.state.favorites[type].indexOf(title), 1) } })
     }
 
-    this.forceUpdate()
-    console.log('FAVORITES SET', type + 'Favorites', favorites)
-    AsyncStorage.setItem(type + 'Favorites', JSON.stringify(favorites), (err) => {
+    // console.log('FAVORITES SET', type + 'Favorites', this.state.favorites)
+    AsyncStorage.setItem(type + 'Favorites', JSON.stringify(this.state.favorites[type]), (err) => {
       console.log(err)
     })
   }

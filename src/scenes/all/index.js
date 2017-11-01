@@ -3,7 +3,6 @@ import { View } from 'react-native'
 
 import Scroll from './Scroll'
 import ImageButton from 'src/components/ImageButton'
-import { colors } from 'src/styles/constants'
 
 export default class All extends React.Component {
   state = { type: '', search: '' }
