@@ -1,11 +1,11 @@
 import React from 'react'
-import { /*SectionList,*/ ScrollView, View } from 'react-native'
+import { /*SectionList, */ ScrollView, View, } from 'react-native'
 
 import Button from 'src/components/Button'
 import * as lines from 'mycta/info/lines'
 import * as stops from 'mycta/info/stops'
 import Stop from 'src/components/Stop'
-import { ctaColors } from 'src/styles/constants'
+import { ctaColors, } from 'src/styles/constants'
 
 // class Header extends React.Component {
 //   render () {
@@ -31,9 +31,10 @@ import { ctaColors } from 'src/styles/constants'
 // }
 
 export default class Scroll extends React.Component {
-  state = { line: '' }
+  state = { line: '', }
 
   render () {
+    console.log('ALL RENDER')
     // console.log(Object.keys(lines[this.props.type]).map(line => (
     //   { line, data: lines[this.props.type][line] }
     // )))
@@ -63,14 +64,14 @@ export default class Scroll extends React.Component {
     //     line={this.state.lineName}
     //   />
 
-      <ScrollView style={{ padding: 10 }}>
-        <View style={{ height: 10 }} />
+      <ScrollView style={{ padding: 10, }}>
+        <View style={{ height: 10, }} />
         {
           Object.keys(lines[this.props.type]).map((lineName) => (
-            <View key={lineName} style={{ flex: 1 }}>
+            <View key={lineName} style={{ flex: 1, }}>
               <Button
                 onPress={() => this.setState({
-                  lineName: this.state.lineName === lineName ? '' : lineName
+                  lineName: this.state.lineName === lineName ? '' : lineName,
                 })}
                 title={lineName}
                 style={[{
@@ -79,8 +80,8 @@ export default class Scroll extends React.Component {
                   margin: 3,
                   alignSelf: 'center',
                 }, this.props.type === 'train' && {
-                  backgroundColor: ctaColors[lineName]
-                }]}
+                  backgroundColor: ctaColors[lineName],
+                },]}
               />
 
               { lineName === this.state.lineName &&
@@ -98,8 +99,12 @@ export default class Scroll extends React.Component {
             </View>
           ))
         }
-        <View style={{ height: 20 }} />
+        <View style={{ height: 20, }} />
       </ScrollView>
     )
+  }
+
+  shouldComponentUpdate (nextProps, nextState) {
+    return this.state !== nextState
   }
 }

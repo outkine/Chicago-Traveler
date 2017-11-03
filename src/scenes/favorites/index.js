@@ -1,18 +1,19 @@
 import React from 'react'
-import { /*SectionList,*/ ScrollView, View, Text, RefreshControl } from 'react-native'
+import { /*SectionList, */ ScrollView, View, Text, RefreshControl, } from 'react-native'
 
 import Stop from 'src/components/Stop'
 import * as stops from 'mycta/info/stops'
-import { fonts } from 'src/styles/constants'
+import { fonts, } from 'src/styles/constants'
 
 export default class Favorites extends React.Component {
   stops = []
-  state = { refreshing: false }
+  state = { refreshing: false, }
 
   render () {
-    const { favorites, toggleFavorite } = this.props.screenProps
+    const { favorites, toggleFavorite, } = this.props.screenProps
     console.log(favorites)
 
+    this.stops = []
     return (
       // <SectionList
       //   renderSectionHeader={({ section }) =>
@@ -46,7 +47,7 @@ export default class Favorites extends React.Component {
             refreshing={this.state.refreshing}
             onRefresh={() => {
               this.stops.forEach(stop => stop.reload())
-              this.setState({ refreshing: false })
+              this.setState({ refreshing: false, })
             }}
           />
         }
@@ -68,7 +69,7 @@ export default class Favorites extends React.Component {
                         immediate
                         toggleFavorite={(type, title) => {
                           toggleFavorite(type, title)
-                          this.setState({ deletedStops: [...this.state.deletedStops, title] })
+                          this.setState({ deletedStops: [...this.state.deletedStops, title,], })
                         }}
                         favorites={favorites}
                         type={type}

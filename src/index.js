@@ -33,8 +33,8 @@ export default class App extends React.Component {
   constructor (props) {
     super(props)
 
-    AsyncStorage.setItem('trainFavorites', '[]')
-    AsyncStorage.setItem('busFavorites', '[]')
+    // AsyncStorage.setItem('trainFavorites', '[]')
+    // AsyncStorage.setItem('busFavorites', '[]')
 
     AsyncStorage.getItem('trainFavorites', (err, trainFavorites) => {
       // console.log('train', trainFavorites, err)

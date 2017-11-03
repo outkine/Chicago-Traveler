@@ -30,7 +30,7 @@ function formatTime (moment_, displaySeconds) {
 }
 
 export default class Stop extends React.Component {
-  state = { predictions: {}, loading: false, }
+  state = { predictions: {}, loading: false, starred: false, }
   active = false
 
   constructor (props) {
@@ -44,7 +44,8 @@ export default class Stop extends React.Component {
   }
 
   render () {
-    console.log(this.state)
+    // console.log(this.state)
+    console.log('STOP RENDER')
     return (
       <View style={{
         width: '90%',
@@ -128,8 +129,13 @@ export default class Stop extends React.Component {
             }}
           />
           <StarButton
-            fullStar={this.props.favorites[this.props.type].includes(this.props.stop.title)}
-            onPress={() => this.props.toggleFavorite(this.props.type, this.props.stop.title)}
+            fullStar={
+              this.state.starred || this.props.favorites[this.props.type].includes(this.props.stop.title)
+            }
+            onPress={() => {
+              this.setState({ starred: !this.state.starred, })
+              this.props.toggleFavorite(this.props.type, this.props.stop.title)
+            }}
             style={{
               marginHorizontal: 20,
             }}
@@ -139,12 +145,12 @@ export default class Stop extends React.Component {
     )
   }
 
-  // shouldComponentUpdate (nextProps, nextState) {
-  //   return (
-  //     nextProps.favorites !== this.props.favorites ||
-  //     nextState.predictions !== this.state.predictions
-  //   )
-  // }
+  shouldComponentUpdate (nextProps, nextState) {
+    return (
+      nextProps.favorites !== this.props.favorites ||
+      nextState !== this.state
+    )
+  }
 
   // componentWillUnmount () {
   //   // window.clearInterval(this.timer)

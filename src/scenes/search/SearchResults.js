@@ -1,15 +1,15 @@
 import React from 'react'
-import { View, ScrollView, Text } from 'react-native'
+import { View, ScrollView, Text, } from 'react-native'
 
 import Stop from 'src/components/Stop'
 import * as stops from 'mycta/info/stops'
-import { fonts } from 'src/styles/constants'
+import { fonts, } from 'src/styles/constants'
 
-export default function SearchResults ({ search, toggleFavorite, favorites }) {
+export default function SearchResults ({ search, toggleFavorite, favorites, }) {
   console.log('search', search)
   return (
     <ScrollView>
-      <View style={{ height: 10 }} />
+      <View style={{ height: 10, }} />
       {
         ['train', 'bus'].map(type => {
           const results = Object.values(stops[type])
@@ -43,7 +43,7 @@ export default function SearchResults ({ search, toggleFavorite, favorites }) {
           }
         })
       }
-      <View style={{ height: 10 }} />
+      <View style={{ height: 10, }} />
     </ScrollView>
   )
 }
