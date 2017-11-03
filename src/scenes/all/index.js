@@ -5,7 +5,7 @@ import Scroll from './Scroll'
 import ImageButton from 'src/components/ImageButton'
 
 export default class All extends React.Component {
-  state = { type: '', search: '' }
+  state = { type: '' }
 
   render () {
     return (

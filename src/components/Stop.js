@@ -45,13 +45,10 @@ export default class Stop extends React.Component {
     if (this.props.pure) {
       this.state.starred = this.props.favorites[this.props.type].includes(this.props.stop.title)
     }
-
-    // this.timer = window.setInterval(() => this.forceUpdate())
   }
 
   render () {
-    // console.log(this.state)
-    console.log('STOP RENDER', this.state, this.props, this.predictions)
+    // console.log('STOP RENDER')
     return (
       <View style={{
         width: '90%',
@@ -154,11 +151,11 @@ export default class Stop extends React.Component {
   }
 
   shouldComponentUpdate (nextProps, nextState) {
-    console.log(
-      (!this.props.pure && nextProps.favorites !== this.props.favorites),
-      nextProps.stop.title !== this.props.stop.title ,
-      nextState.loading !== this.state.loading
-    )
+    // console.log(
+    //   (!this.props.pure && nextProps.favorites !== this.props.favorites),
+    //   nextProps.stop.title !== this.props.stop.title ,
+    //   nextState.loading !== this.state.loading
+    // )
     return (
       (!this.props.pure && nextProps.favorites !== this.props.favorites) ||
       nextProps.stop.title !== this.props.stop.title ||
@@ -170,9 +167,6 @@ export default class Stop extends React.Component {
   componentDidUpdate (prevProps) {
     if (prevProps.stop.title !== this.props.stop.title) this.reload()
   }
-  // componentWillUnmount () {
-  //   // window.clearInterval(this.timer)
-  // }
 
   reload = (update = true) => {
     // console.log(this.props)
@@ -182,7 +176,7 @@ export default class Stop extends React.Component {
     for (let direction of Object.keys(this.props.stop.directions)) {
       // console.log(direction, 'resetting')
       getPredictions(this.props.type, this.props.stop.directions[direction], (predictions, error) => {
-        console.log('predictions,', direction, predictions)
+        // console.log('predictions,', direction, predictions)
         this.predictions = {
           ...this.predictions,
           [direction]: {

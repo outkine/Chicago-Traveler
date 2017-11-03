@@ -10,14 +10,16 @@ import * as stops from 'mycta/info/stops'
 import Loading from 'src/components/Loading'
 import MapSwitch from './MapSwitch'
 
+const DEFAULT_REGION = {
+  latitudeDelta: 0.4,
+  longitudeDelta: 0.4,
+  latitude: 41.89,
+  longitude: -87.6923,
+}
+
 export default class Map extends React.Component {
   state = {
-    region: {
-      latitudeDelta: 0.4,
-      longitudeDelta: 0.4,
-      latitude: 41.89,
-      longitude: -87.6923,
-    },
+    region: null,
     ready: false,
     isTypeTrain: true
   }
@@ -31,21 +33,29 @@ export default class Map extends React.Component {
         if (status === 'granted') {
           Location.getCurrentPositionAsync({ enableHighAccuracy: true })
             .then((results) => {
+              // console.log(results)
               this.setState({
                 region: {
-                  ...results.coords,
+                  latitude: results.coords.latitude,
+                  longitude: results.coords.longitude,
                   latitudeDelta: 0.03,
                   longitudeDelta: 0.03,
                 }
               })
             })
+        } else {
+          this.setState({ region: DEFAULT_REGION })
         }
+      })
+      .catch(() => {
+        this.setState({ region: DEFAULT_REGION })
       })
   }
 
   render () {
     // console.log(this.state)
     // console.log('MAP RENDER', this.state)
+    if (!this.state.region) return <Loading />
     return (
       <View style={{ height: '100%' }}>
         <MapView

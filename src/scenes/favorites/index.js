@@ -1,5 +1,5 @@
 import React from 'react'
-import { /*SectionList, */ ScrollView, View, Text, RefreshControl } from 'react-native'
+import { /*SectionList,*/ ScrollView, View, Text, RefreshControl } from 'react-native'
 
 import Stop from 'src/components/Stop'
 import * as stops from 'mycta/info/stops'
@@ -11,9 +11,23 @@ export default class Favorites extends React.Component {
 
   render () {
     const { favorites, toggleFavorite, } = this.props.screenProps
-    console.log(favorites)
+    // console.log(favorites)
 
     this.stops = []
+
+    if (!Object.values(favorites).reduce((bool, favorites) => (
+      bool || !favorites.length === 0
+    ), false)) {
+      return (
+        <Text style={{
+          textAlign: 'center',
+          margin: 20,
+        }}>
+          No starred stops. Go add some!
+        </Text>
+      )
+    }
+
     return (
       // <SectionList
       //   renderSectionHeader={({ section }) =>
@@ -67,10 +81,7 @@ export default class Favorites extends React.Component {
                     <View key={title}>
                       <Stop
                         immediate
-                        toggleFavorite={(type, title) => {
-                          toggleFavorite(type, title)
-                          this.setState({ deletedStops: [...this.state.deletedStops, title], })
-                        }}
+                        toggleFavorite={(type, title) => toggleFavorite(type, title)}
                         favorites={favorites}
                         type={type}
                         stop={stops[type][title]}

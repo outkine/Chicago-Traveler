@@ -3,7 +3,7 @@ import React from 'react'
 import ImageButton from './ImageButton'
 import { colors } from 'src/styles/constants'
 
-export default class StarButton extends React.Component {
+export default class ReloadButton extends React.Component {
   render () {
     return (
       <ImageButton
@@ -14,5 +14,5 @@ export default class StarButton extends React.Component {
     )
   }
 
-  // shouldComponentUpdate () { return false }
+  shouldComponentUpdate () { return false }
 }

@@ -1,11 +1,11 @@
 import React from 'react'
-import { /*SectionList, */ ScrollView, View, } from 'react-native'
+import { ScrollView, View } from 'react-native'
 
 import Button from 'src/components/Button'
 import * as lines from 'mycta/info/lines'
 import * as stops from 'mycta/info/stops'
 import Stop from 'src/components/Stop'
-import { ctaColors, } from 'src/styles/constants'
+import { ctaColors } from 'src/styles/constants'
 
 // class Header extends React.Component {
 //   render () {
@@ -34,35 +34,52 @@ export default class Scroll extends React.Component {
   state = { line: '', }
 
   render () {
-    console.log('ALL RENDER')
+    // console.log('ALL RENDER', this.state)
     // console.log(Object.keys(lines[this.props.type]).map(line => (
     //   { line, data: lines[this.props.type][line] }
     // )))
     return (
     //   <SectionList
     //     renderSectionHeader={({ section }) => {
-    //       console.log(section)
-    //       return()}
-    //     }
-    //     renderItem={({ item, section }) =>
-    //       section.line === this.state.line &&
-    //         <View key={item}>
-    //           <Stop
-    //             toggleFavorite={this.props.toggleFavorite}
-    //             favorites={this.props.favorites}
-    //             type={this.props.type}
-    //             stop={stops[this.props.type][item]}
-    //           />
-    //         </View>
-    //     }
+    //       console.log(section.line)
+    //       return (
+    //         <Button
+    //           onPress={() => this.setState({
+    //             line: this.state.line === section.line ? '' : section.line,
+    //           })}
+    //           title={section.line}
+    //           style={[{
+    //             width: '85%',
+    //             elevation: 10,
+    //             margin: 3,
+    //             alignSelf: 'center',
+    //           }, this.props.type === 'train' && {
+    //             backgroundColor: ctaColors[section.line],
+    //           }]}
+    //         />
+    //       )
+    //     }}
+    //     renderItem={({ item, section }) => {
+    //       // console.log('item')
+    //       return (
+    //         <Stop
+    //           toggleFavorite={this.props.toggleFavorite}
+    //           favorites={this.props.favorites}
+    //           type={this.props.type}
+    //           stop={stops[this.props.type][item]}
+    //         />
+    //       )
+    //     }}
     //     keyExtractor={key => key}
     //     sections={
     //       Object.keys(lines[this.props.type]).map(line => (
-    //         { line, data: lines[this.props.type][line] }
+    //         { line, data: line === this.state.line ? lines[this.props.type][line] : [] }
     //       ))
     //     }
     //     line={this.state.lineName}
     //   />
+    //   )
+    // }
 
       <ScrollView style={{ padding: 10, }}>
         <View style={{ height: 10, }} />
@@ -81,7 +98,7 @@ export default class Scroll extends React.Component {
                   alignSelf: 'center',
                 }, this.props.type === 'train' && {
                   backgroundColor: ctaColors[lineName],
-                },]}
+                }]}
               />
 
               { lineName === this.state.lineName &&
@@ -106,6 +123,7 @@ export default class Scroll extends React.Component {
   }
 
   shouldComponentUpdate (nextProps, nextState) {
+    // console.log(this.state === nextState)
     return this.state !== nextState
   }
 }

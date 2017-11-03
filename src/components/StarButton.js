@@ -14,5 +14,5 @@ export default class StarButton extends React.Component {
     )
   }
 
-  // shouldComponentUpdate () { return false }
+  shouldComponentUpdate (nextProps) { return nextProps.fullStar !== this.props.fullStar }
 }

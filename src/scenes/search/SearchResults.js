@@ -1,12 +1,12 @@
 import React from 'react'
-import { View, ScrollView, Text, } from 'react-native'
+import { View, ScrollView, Text } from 'react-native'
 
 import Stop from 'src/components/Stop'
 import * as stops from 'mycta/info/stops'
-import { fonts, } from 'src/styles/constants'
+import { fonts } from 'src/styles/constants'
 
 export default function SearchResults ({ search, toggleFavorite, favorites, }) {
-  console.log('search', search)
+  // console.log('search', search)
   return (
     <ScrollView>
       <View style={{ height: 10, }} />

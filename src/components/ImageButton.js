@@ -34,5 +34,5 @@ export default class ImageButton extends React.Component {
     )
   }
 
-  // shouldComponentUpdate () { return false }
+  shouldComponentUpdate (nextProps) { return this.props.source !== nextProps.source }
 }
