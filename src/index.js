@@ -33,8 +33,8 @@ export default class App extends React.Component {
   constructor (props) {
     super(props)
 
-    // AsyncStorage.setItem('trainFavorites', '[]')
-    // AsyncStorage.setItem('busFavorites', '[]')
+    AsyncStorage.setItem('trainFavorites', '[]')
+    AsyncStorage.setItem('busFavorites', '[]')
 
     AsyncStorage.getItem('trainFavorites', (err, trainFavorites) => {
       // console.log('train', trainFavorites, err)
@@ -61,15 +61,16 @@ export default class App extends React.Component {
   }
 
   toggleFavorite = (type, title) => {
-    // console.log(this.state, type, title)
+    console.log(this.state.favorites, type, title)
+    let newFavorites
     if (!this.state.favorites[type].includes(title)) {
-      this.setState({ favorites: { ...this.state.favorites, [type]: [...this.state.favorites[type], title] } })
+      newFavorites = { ...this.state.favorites, [type]: [...this.state.favorites[type], title] }
     } else {
-      this.setState({ favorites: { ...this.state.favorites, [type]: this.state.favorites[type].splice(this.state.favorites[type].indexOf(title), 1) } })
+      newFavorites = { ...this.state.favorites, [type]: this.state.favorites[type].splice(this.state.favorites[type].indexOf(title), 1) }
     }
-
-    // console.log('FAVORITES SET', type + 'Favorites', this.state.favorites)
-    AsyncStorage.setItem(type + 'Favorites', JSON.stringify(this.state.favorites[type]), (err) => {
+    this.setState({ favorites: newFavorites })
+    console.log('FAVORITES SET', type + 'Favorites', newFavorites)
+    AsyncStorage.setItem(type + 'Favorites', JSON.stringify(newFavorites[type]), (err) => {
       console.log(err)
     })
   }

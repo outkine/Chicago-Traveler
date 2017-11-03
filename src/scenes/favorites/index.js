@@ -11,6 +11,7 @@ export default class Favorites extends React.Component {
 
   render () {
     const { favorites, toggleFavorite } = this.props.screenProps
+    console.log(favorites)
 
     return (
       // <SectionList
@@ -53,40 +54,40 @@ export default class Favorites extends React.Component {
         {
           Object.keys(favorites).map(type =>
             favorites[type].length > 0 &&
-            <View key={type}>
-              <Text style={{
-                ...fonts[0],
-                marginTop: 20,
-              }}>
-                {type.capitalize()}
-              </Text>
-              {
-                favorites[type].map((title) =>
-                  <View key={title}>
-                    <Stop
-                      immediate
-                      toggleFavorite={(type, title) => {
-                        toggleFavorite(type, title)
-                        this.setState({ deletedStops: [...this.state.deletedStops, title] })
-                      }}
-                      favorites={favorites}
-                      type={type}
-                      stop={stops[type][title]}
-                      ref={(element) => element && this.stops.push(element)}
-                    />
-                  </View>
-                )
-              }
-            </View>
+              <View key={type}>
+                <Text style={{
+                  ...fonts[0],
+                  marginTop: 20,
+                }}>
+                  {type.capitalize()}
+                </Text>
+                {
+                  favorites[type].map((title) =>
+                    <View key={title}>
+                      <Stop
+                        immediate
+                        toggleFavorite={(type, title) => {
+                          toggleFavorite(type, title)
+                          this.setState({ deletedStops: [...this.state.deletedStops, title] })
+                        }}
+                        favorites={favorites}
+                        type={type}
+                        stop={stops[type][title]}
+                        ref={(element) => element && this.stops.push(element)}
+                      />
+                    </View>
+                  )
+                }
+              </View>
           )
         }
       </ScrollView>
     )
   }
 
-  shouldComponentUpdate ({ screenProps: { favorites } }) {
-    return Object.keys(favorites).reduce((bool, type) => (
-      bool || favorites[type].length > this.props.screenProps.favorites[type]
-    ), false)
-  }
+  // shouldComponentUpdate ({ screenProps: { favorites } }) {
+  //   return Object.keys(favorites).reduce((bool, type) => (
+  //     bool || favorites[type].length > this.props.screenProps.favorites[type]
+  //   ), false)
+  // }
 }

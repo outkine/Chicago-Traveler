@@ -1,10 +1,10 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, } from 'react-native'
 
-import { getPredictions } from 'mycta/jsclient'
+import { getPredictions, } from 'mycta/jsclient'
 import ReloadButton from './ReloadButton'
 import StarButton from './StarButton'
-import { fonts } from 'src/styles/constants'
+import { fonts, } from 'src/styles/constants'
 import moment from 'moment'
 
 function formatTime (moment_, displaySeconds) {
@@ -30,7 +30,7 @@ function formatTime (moment_, displaySeconds) {
 }
 
 export default class Stop extends React.Component {
-  state = { predictions: {} }
+  state = { predictions: {}, loading: false, }
   active = false
 
   constructor (props) {
@@ -44,7 +44,7 @@ export default class Stop extends React.Component {
   }
 
   render () {
-    // console.log(this.props)
+    console.log(this.state)
     return (
       <View style={{
         width: '90%',
@@ -65,7 +65,7 @@ export default class Stop extends React.Component {
         }}>
           {this.props.stop.lines.join(', ')}
         </Text>
-        { this.active &&
+        { this.active && (
           <View style={{
             borderWidth: 1,
             padding: 5,
@@ -73,36 +73,50 @@ export default class Stop extends React.Component {
             backgroundColor: 'rgb(250, 250, 250)',
             marginBottom: 10,
           }}>
-            <View style={{
-              flexDirection: 'row'
-            }}>
-              {
-                Object.keys(this.props.stop.directions).map(direction =>
-                  <Text key={direction} style={{
-                    ...fonts[2],
-                    flex: 1,
+            {
+              !this.state.loading ? (
+                <View>
+                  <View style={{
+                    flexDirection: 'row',
                   }}>
-                    {direction}
-                  </Text>
-                )
-              }
-            </View>
-            <View style={{
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-            }}>
-              {
-                Object.keys(this.props.stop.directions).map(direction =>
-                  <Text key={direction}>
-                    {(this.state.predictions[direction] && this.state.predictions[direction].length > 0)
-                      ? this.state.predictions[direction].map((prediction, i) => formatTime(prediction, i === 0)).join('\n') : 'Loading...'
+                    {
+                      Object.keys(this.props.stop.directions).map(direction =>
+                        <Text key={direction} style={{
+                          ...fonts[2],
+                          flex: 1,
+                        }}>
+                          {direction}
+                        </Text>
+                      )
                     }
-                  </Text>
-                )
-              }
-            </View>
+                  </View>
+                  <View style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+                  }}>
+                    {
+                      Object.keys(this.props.stop.directions).map(direction =>
+                        <Text key={direction}>
+                          {this.state.predictions[direction] && (
+                            this.state.predictions[direction].error
+                              ? this.state.predictions[direction].error
+                              : this.state.predictions[direction].data.map((prediction, i) => (
+                                formatTime(prediction, i === 0)
+                              )).join('\n')
+                          )}
+                        </Text>
+                      )
+                    }
+                  </View>
+                </View>
+              ) : (
+                <Text style={{
+                  textAlign: 'center',
+                }}>Loading...</Text>
+              )
+            }
           </View>
-        }
+        )}
         <View style={{
           flexDirection: 'row',
           height: 40,
@@ -139,15 +153,24 @@ export default class Stop extends React.Component {
   reload = (update = true) => {
     // console.log(this.props)
     this.active = true
+    if (update) this.setState({ loading: true, predictions: {} })
     for (let direction of Object.keys(this.props.stop.directions)) {
-      if (update) this.setState({ predictions: { ...this.state.predictions, [direction]: [] } })
       // console.log(direction, 'resetting')
       getPredictions(this.props.type, this.props.stop.directions[direction], (predictions, error) => {
         // console.log('predictions,', predictions)
-        this.setState({ predictions: {
+        predictions = {
           ...this.state.predictions,
-          [direction]: error ? [error] : predictions
-        } })
+          [direction]: {
+            error: error,
+            data: predictions,
+          },
+        }
+        this.setState({
+          predictions,
+          loading: Object.keys(this.props.stop.directions).reduce((bool, direction) => (
+            bool || !predictions[direction]
+          ), false),
+        })
       })
     }
   }
