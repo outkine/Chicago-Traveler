@@ -92,6 +92,7 @@ export default class Scroll extends React.Component {
                         favorites={this.props.favorites}
                         type={this.props.type}
                         stop={stops[this.props.type][stopTitle]}
+                        pure
                       />
                     </View>
                   )

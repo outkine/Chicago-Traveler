@@ -11,7 +11,7 @@ export default class All extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <TextInput
-          onChangeText={(search) => this.setState({ search })}
+          onChangeText={(search) => this.setState({ search, })}
           value={this.state.search}
           style={{
             width: '90%',

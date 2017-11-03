@@ -1,10 +1,10 @@
 import React from 'react'
-import { View, Text, } from 'react-native'
+import { View, Text } from 'react-native'
 
-import { getPredictions, } from 'mycta/jsclient'
+import { getPredictions } from 'mycta/jsclient'
 import ReloadButton from './ReloadButton'
 import StarButton from './StarButton'
-import { fonts, } from 'src/styles/constants'
+import { fonts } from 'src/styles/constants'
 import moment from 'moment'
 
 function formatTime (moment_, displaySeconds) {
@@ -30,14 +30,20 @@ function formatTime (moment_, displaySeconds) {
 }
 
 export default class Stop extends React.Component {
-  state = { predictions: {}, loading: false, starred: false, }
+  state = { loading: false, }
+  predictions = {}
   active = false
 
   constructor (props) {
     super(props)
 
     if (this.props.immediate) {
+      this.state.loading = true
       this.reload(false)
+    }
+
+    if (this.props.pure) {
+      this.state.starred = this.props.favorites[this.props.type].includes(this.props.stop.title)
     }
 
     // this.timer = window.setInterval(() => this.forceUpdate())
@@ -45,7 +51,7 @@ export default class Stop extends React.Component {
 
   render () {
     // console.log(this.state)
-    console.log('STOP RENDER')
+    console.log('STOP RENDER', this.state, this.props, this.predictions)
     return (
       <View style={{
         width: '90%',
@@ -98,10 +104,10 @@ export default class Stop extends React.Component {
                     {
                       Object.keys(this.props.stop.directions).map(direction =>
                         <Text key={direction}>
-                          {this.state.predictions[direction] && (
-                            this.state.predictions[direction].error
-                              ? this.state.predictions[direction].error
-                              : this.state.predictions[direction].data.map((prediction, i) => (
+                          {this.predictions[direction] && (
+                            this.predictions[direction].error
+                              ? this.predictions[direction].error
+                              : this.predictions[direction].data.map((prediction, i) => (
                                 formatTime(prediction, i === 0)
                               )).join('\n')
                           )}
@@ -130,10 +136,12 @@ export default class Stop extends React.Component {
           />
           <StarButton
             fullStar={
-              this.state.starred || this.props.favorites[this.props.type].includes(this.props.stop.title)
+              this.props.pure
+                ? this.state.starred
+                : this.props.favorites[this.props.type].includes(this.props.stop.title)
             }
             onPress={() => {
-              this.setState({ starred: !this.state.starred, })
+              if (this.props.pure) this.setState({ starred: !this.state.starred, })
               this.props.toggleFavorite(this.props.type, this.props.stop.title)
             }}
             style={{
@@ -146,12 +154,22 @@ export default class Stop extends React.Component {
   }
 
   shouldComponentUpdate (nextProps, nextState) {
+    console.log(
+      (!this.props.pure && nextProps.favorites !== this.props.favorites),
+      nextProps.stop.title !== this.props.stop.title ,
+      nextState.loading !== this.state.loading
+    )
     return (
-      nextProps.favorites !== this.props.favorites ||
-      nextState !== this.state
+      (!this.props.pure && nextProps.favorites !== this.props.favorites) ||
+      nextProps.stop.title !== this.props.stop.title ||
+      nextState.loading !== this.state.loading ||
+      nextState.starred !== this.state.starred
     )
   }
 
+  componentDidUpdate (prevProps) {
+    if (prevProps.stop.title !== this.props.stop.title) this.reload()
+  }
   // componentWillUnmount () {
   //   // window.clearInterval(this.timer)
   // }
@@ -159,24 +177,22 @@ export default class Stop extends React.Component {
   reload = (update = true) => {
     // console.log(this.props)
     this.active = true
-    if (update) this.setState({ loading: true, predictions: {} })
+    this.predictions = {}
+    if (update) this.setState({ loading: true })
     for (let direction of Object.keys(this.props.stop.directions)) {
       // console.log(direction, 'resetting')
       getPredictions(this.props.type, this.props.stop.directions[direction], (predictions, error) => {
-        // console.log('predictions,', predictions)
-        predictions = {
-          ...this.state.predictions,
+        console.log('predictions,', direction, predictions)
+        this.predictions = {
+          ...this.predictions,
           [direction]: {
             error: error,
             data: predictions,
           },
         }
-        this.setState({
-          predictions,
-          loading: Object.keys(this.props.stop.directions).reduce((bool, direction) => (
-            bool || !predictions[direction]
-          ), false),
-        })
+        if (!Object.keys(this.props.stop.directions).reduce((bool, direction) => (
+          bool || !this.predictions[direction]
+        ), false)) this.setState({ loading: false })
       })
     }
   }
