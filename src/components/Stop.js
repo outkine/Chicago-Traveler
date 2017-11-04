@@ -95,16 +95,29 @@ export default class Stop extends React.Component {
                     {
                       Object.keys(this.props.stop.directions).map(direction =>
                         <View key={direction} style={{ flex: 1 }}>
-                          <Text style={{
-                            ...fonts[2],
-                          }}>
-                            {direction.split('\n')[1]}
-                          </Text>
-                          <Text style={{
-                            ...fonts[4],
-                          }}>
-                            {direction.split('\n')[0]}
-                          </Text>
+                          {
+                            this.props.type === 'train' ? (
+                              <View>
+                                <Text style={{
+                                  ...fonts[2],
+                                }}>
+                                  {direction.split('\n')[1]}
+                                </Text>
+                                <Text style={{
+                                  ...fonts[4],
+                                }}>
+                                  {direction.split('\n')[0]}
+                                </Text>
+                              </View>
+                            ) : (
+                              <Text style={{
+                                ...fonts[2],
+                              }}>
+                                {direction}
+                              </Text>
+                            )
+                          }
+
                         </View>
                       )
                     }
@@ -153,7 +166,7 @@ export default class Stop extends React.Component {
                                       <Text key={i} style={Object.keys(this.predictions).length === 4 && {
                                         fontSize: 12,
                                       }}>
-                                        {prediction}
+                                        {prediction.arrival}
                                       </Text>
                                     )
                                   }
@@ -229,12 +242,14 @@ export default class Stop extends React.Component {
     for (let direction of Object.keys(this.props.stop.directions)) {
       // console.log(direction, 'resetting')
       getPredictions(this.props.type, this.props.stop.directions[direction], (predictions, error) => {
-        console.log('predictions,', direction, predictions)
+        console.log('predictions,', direction, predictions, error)
         this.predictions = {
           ...this.predictions,
           [direction]: {
             error: error,
-            data: predictions.map((prediction, i) => formatTime(prediction.arrival, i === 0))
+            data: predictions && predictions.map((prediction, i) => (
+              { ...prediction, arrival: formatTime(prediction.arrival, i === 0) }
+            ))
           },
         }
         if (!Object.keys(this.props.stop.directions).reduce((bool, direction) => (

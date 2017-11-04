@@ -83,16 +83,18 @@ for (const type of ['bus', 'train']) {
         }
       ))
     } else {
-      result = result.map(stop => (
-        {
-          id: stop.systemstop,
-          displayTitle: stop.public_nam,
-          title: stop.public_nam + ' ' + stop.cross_st,
-          latlng: { latitude: parseFloat(stop.point_y), longitude: parseFloat(stop.point_x) },
-          lines: stop.routesstpg.split(','),
-          direction: CTA_DIRECTIONS[stop.dir.replace('B', '').toLowerCase()] + '-bound',
-        }
-      ))
+      result = result
+        .filter(stop => stop.routesstpg)
+        .map(stop => (
+          {
+            id: stop.systemstop,
+            displayTitle: stop.public_nam,
+            title: stop.public_nam + ' ' + stop.cross_st,
+            latlng: { latitude: parseFloat(stop.point_y), longitude: parseFloat(stop.point_x) },
+            lines: stop.routesstpg.split(',').filter(route => route),
+            direction: CTA_DIRECTIONS[stop.dir.replace('B', '').toLowerCase()] + '-bound',
+          }
+        ))
     }
 
     const objectResult = result.reduce((stops, stop) => {
@@ -119,6 +121,7 @@ for (const type of ['bus', 'train']) {
     const lines = {}
     for (let stopTitle in objectResult) {
       for (let line of objectResult[stopTitle].lines) {
+        if (!line) console.log(stopTitle)
         if (!(line in lines)) lines[line] = []
         lines[line].push(stopTitle)
       }

@@ -18,7 +18,6 @@ export function getPredictions (type, id, callback) {
     trainRequest('ttarrivals', { stpid: id }, (data, error) => {
       if (error) callback(null, error)
       else if ('eta' in data) {
-        // console.log(data.eta)
         callback(data.eta.map(prediction => ({
           arrival: moment(prediction.arrT),
           line: L_COLORS[prediction.rt.toLowerCase()],
@@ -27,6 +26,7 @@ export function getPredictions (type, id, callback) {
     })
   } else {
     busRequest('getpredictions', { stpid: id }, (data, error) => {
+      console.log(data)
       if (error) callback(null, error)
       else if ('prd' in data) {
         callback(data.prd.map(prediction => ({
