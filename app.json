@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "mycta",
-    "description": "the one stop for all of your CTA needs",
-    "slug": "mycta",
+    "name": "Chicago Traveler",
+    "description": "the one stop for all of your Chicago public transportation needs",
+    "slug": "chicago-traveler",
     "privacy": "public",
     "sdkVersion": "21.0.0",
     "version": "1.0.0",
     "orientation": "portrait",
-    "primaryColor": "#cccccc",
+    "primaryColor": "#ffffff",
     "icon": "./assets/icons/app-icon.png",
     "loading": {
       "icon": "./assets/icons/loading-icon.png"
@@ -17,10 +17,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mycta.mycta"
+      "bundleIdentifier": "com.chicagotraveler.chicagotraveler"
     },
     "android": {
-      "package": "com.mycta.mycta",
+      "package": "com.chicagotraveler.chicagotraveler",
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyAx9YuC08qsSusZfPb0YD3S1deOj1ErrE4"

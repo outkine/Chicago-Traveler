@@ -242,7 +242,7 @@ export default class Stop extends React.Component {
     for (let direction of Object.keys(this.props.stop.directions)) {
       // console.log(direction, 'resetting')
       getPredictions(this.props.type, this.props.stop.directions[direction], (predictions, error) => {
-        console.log('predictions,', direction, predictions, error)
+        // console.log('predictions,', direction, predictions, error)
         this.predictions = {
           ...this.predictions,
           [direction]: {

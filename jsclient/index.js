@@ -26,7 +26,7 @@ export function getPredictions (type, id, callback) {
     })
   } else {
     busRequest('getpredictions', { stpid: id }, (data, error) => {
-      console.log(data)
+      // console.log(data)
       if (error) callback(null, error)
       else if ('prd' in data) {
         callback(data.prd.map(prediction => ({

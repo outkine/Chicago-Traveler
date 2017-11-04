@@ -37,13 +37,13 @@ export default class App extends React.Component {
     // AsyncStorage.setItem('busFavorites', '[]')
 
     AsyncStorage.getItem('trainFavorites', (err, trainFavorites) => {
-      console.log('train', trainFavorites, err)
+      // console.log('train', trainFavorites, err)
       if (err) console.log(err)
       if (trainFavorites) this.setState({ favorites: { ...this.state.favorites, train: JSON.parse(trainFavorites) } })
     })
 
     AsyncStorage.getItem('busFavorites', (err, busFavorites) => {
-      console.log('bus', busFavorites, err)
+      // console.log('bus', busFavorites, err)
       if (err) console.log(err)
       if (busFavorites) this.setState({ favorites: { ...this.state.favorites, bus: JSON.parse(busFavorites) } })
     })
@@ -61,17 +61,17 @@ export default class App extends React.Component {
   }
 
   toggleFavorite = (type, title) => {
-    console.log(this.state.favorites, type, title)
+    // console.log(this.state.favorites, type, title)
     let newFavorites
     if (!this.state.favorites[type].includes(title)) {
-      console.log('add')
+      // console.log('add')
       newFavorites = { ...this.state.favorites, [type]: [...this.state.favorites[type], title] }
     } else {
-      console.log('subtract')
+      // console.log('subtract')
       newFavorites = { ...this.state.favorites, [type]: this.state.favorites[type].filter(stopTitle => stopTitle !== title) }
     }
     this.setState({ favorites: newFavorites })
-    console.log('FAVORITES SET', type + 'Favorites', newFavorites)
+    // console.log('FAVORITES SET', type + 'Favorites', newFavorites)
     AsyncStorage.setItem(type + 'Favorites', JSON.stringify(newFavorites[type]), (err) => {
       console.log(err)
     })
