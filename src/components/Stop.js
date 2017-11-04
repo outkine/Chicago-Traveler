@@ -4,27 +4,29 @@ import { View, Text } from 'react-native'
 import { getPredictions } from 'mycta/jsclient'
 import ReloadButton from './ReloadButton'
 import StarButton from './StarButton'
-import { fonts } from 'src/styles/constants'
+import { fonts, ctaColors, colors } from 'src/styles/constants'
 import moment from 'moment'
 
 function formatTime (moment_, displaySeconds) {
   // console.log(moment_.diff(moment(), 'seconds'))
-  moment_ = moment(0).hours(0).seconds(moment_.diff(moment(), 's'))
+  let seconds = moment_.diff(moment(), 's')
+  if (seconds < 0) return 'due'
+  moment_ = moment(0).hours(0).seconds(seconds)
   // console.log(moment_)
   let result = ''
   const minutes = String(moment_.minutes())
   if (minutes.length === 1) {
     result += 0
   }
-  result += minutes + 'm  '
+  result += minutes + 'm '
   if (displaySeconds) {
     const seconds = String(moment_.seconds())
     if (seconds.length === 1) {
       result += 0
     }
-    result += seconds + 's  '
+    result += seconds + 's '
   } else {
-    result += '      '
+    result += '     '
   }
   return result
 }
@@ -64,8 +66,14 @@ export default class Stop extends React.Component {
           {this.props.stop.displayTitle}
         </Text>
         <Text style={{
+          ...fonts[5],
+          marginBottom: 2,
+        }}>
+          {Object.values(this.props.stop.directions).join(', ')}
+        </Text>
+        <Text style={{
           ...fonts[4],
-          marginBottom: 10,
+          marginBottom: 7,
         }}>
           {this.props.stop.lines.join(', ')}
         </Text>
@@ -82,15 +90,22 @@ export default class Stop extends React.Component {
                 <View>
                   <View style={{
                     flexDirection: 'row',
+                    marginBottom: 5,
                   }}>
                     {
                       Object.keys(this.props.stop.directions).map(direction =>
-                        <Text key={direction} style={{
-                          ...fonts[2],
-                          flex: 1,
-                        }}>
-                          {direction}
-                        </Text>
+                        <View key={direction} style={{ flex: 1 }}>
+                          <Text style={{
+                            ...fonts[2],
+                          }}>
+                            {direction.split('\n')[1]}
+                          </Text>
+                          <Text style={{
+                            ...fonts[4],
+                          }}>
+                            {direction.split('\n')[0]}
+                          </Text>
+                        </View>
                       )
                     }
                   </View>
@@ -100,15 +115,53 @@ export default class Stop extends React.Component {
                   }}>
                     {
                       Object.keys(this.props.stop.directions).map(direction =>
-                        <Text key={direction}>
+                        <View key={direction}>
                           {this.predictions[direction] && (
-                            this.predictions[direction].error
-                              ? this.predictions[direction].error
-                              : this.predictions[direction].data.map((prediction, i) => (
-                                formatTime(prediction, i === 0)
-                              )).join('\n')
+                            this.predictions[direction].error ? (
+                              <Text>{this.predictions[direction].error}</Text>
+                            ) : (
+                              <View style={{ flexDirection: 'row' }}>
+                                <View style={{ flexDirection: 'column' }}>
+                                  {
+                                    this.predictions[direction].data.map((prediction, i) =>
+                                      <View key={i} style={[{
+                                        marginRight: 10,
+                                      }, this.props.type === 'train' && {
+                                        backgroundColor: ctaColors[prediction.line],
+                                        height: 10,
+                                        width: 10,
+                                        marginVertical: 4.5,
+                                      }, Object.keys(this.predictions).length === 4 && this.props.type === 'train' && {
+                                        marginVertical: 3.25,
+                                        marginRight: 5,
+                                      }]}>
+                                        {this.props.type === 'bus' &&
+                                          <Text style={{
+                                            color: colors.black[2],
+                                            textAlign: 'right',
+                                          }}>
+                                            {prediction.line}
+                                          </Text>
+                                        }
+                                      </View>
+                                    )
+                                  }
+                                </View>
+                                <View style={{ flexDirection: 'column' }}>
+                                  {
+                                    this.predictions[direction].data.map((prediction, i) =>
+                                      <Text key={i} style={Object.keys(this.predictions).length === 4 && {
+                                        fontSize: 12,
+                                      }}>
+                                        {prediction}
+                                      </Text>
+                                    )
+                                  }
+                                </View>
+                              </View>
+                            )
                           )}
-                        </Text>
+                        </View>
                       )
                     }
                   </View>
@@ -176,12 +229,12 @@ export default class Stop extends React.Component {
     for (let direction of Object.keys(this.props.stop.directions)) {
       // console.log(direction, 'resetting')
       getPredictions(this.props.type, this.props.stop.directions[direction], (predictions, error) => {
-        // console.log('predictions,', direction, predictions)
+        console.log('predictions,', direction, predictions)
         this.predictions = {
           ...this.predictions,
           [direction]: {
             error: error,
-            data: predictions,
+            data: predictions.map((prediction, i) => formatTime(prediction.arrival, i === 0))
           },
         }
         if (!Object.keys(this.props.stop.directions).reduce((bool, direction) => (

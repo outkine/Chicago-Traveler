@@ -31,10 +31,10 @@ import { ctaColors } from 'src/styles/constants'
 // }
 
 export default class Scroll extends React.Component {
-  state = { line: '', }
+  state = { lineName: '', }
 
   render () {
-    // console.log('ALL RENDER', this.state)
+    // console.log('ALL RENDER')
     // console.log(Object.keys(lines[this.props.type]).map(line => (
     //   { line, data: lines[this.props.type][line] }
     // )))
@@ -81,18 +81,18 @@ export default class Scroll extends React.Component {
     //   )
     // }
 
-      <ScrollView style={{ padding: 10, }}>
-        <View style={{ height: 10, }} />
+      <ScrollView>
+        <View style={{ height: 10 }} />
         {
           Object.keys(lines[this.props.type]).map((lineName) => (
-            <View key={lineName} style={{ flex: 1, }}>
+            <View key={lineName} style={{ flex: 1 }}>
               <Button
                 onPress={() => this.setState({
                   lineName: this.state.lineName === lineName ? '' : lineName,
                 })}
                 title={lineName}
                 style={[{
-                  width: '85%',
+                  width: '80%',
                   elevation: 10,
                   margin: 3,
                   alignSelf: 'center',
@@ -117,13 +117,22 @@ export default class Scroll extends React.Component {
             </View>
           ))
         }
-        <View style={{ height: 20, }} />
+        <View style={{ height: 20 }} />
       </ScrollView>
     )
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (this.props.type !== nextProps.type) {
+      this.setState({ lineName: '' })
+    }
+  }
+
   shouldComponentUpdate (nextProps, nextState) {
-    // console.log(this.state === nextState)
-    return this.state !== nextState
+    // console.log(this.state)
+    return (
+      this.state !== nextState ||
+      this.props.type !== nextProps.type
+    )
   }
 }

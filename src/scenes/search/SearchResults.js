@@ -17,7 +17,7 @@ export default function SearchResults ({ search, toggleFavorite, favorites, }) {
               Object.values(stop.directions).reduce((acc, id) => acc || id.includes(search), false) ||
               stop.title.toLowerCase().includes(search)
             ))
-          if (results.length > 0 && results.length < 50) {
+          if (results.length > 0 && results.length < 300) {
             return (
               <View key={type}>
                 <Text style={{

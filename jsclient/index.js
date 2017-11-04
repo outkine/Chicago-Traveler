@@ -2,19 +2,37 @@ import { busKey, trainKey } from 'mycta/keys'
 import { stringify } from 'querystring'
 import moment from 'moment'
 
+const L_COLORS = {
+  red: 'red',
+  blue: 'blue',
+  g: 'green',
+  brn: 'brown',
+  p: 'purple',
+  pexp: 'purple',
+  y: 'yellow',
+  pink: 'pink',
+  org: 'orange',
+}
 export function getPredictions (type, id, callback) {
   if (type === 'train') {
     trainRequest('ttarrivals', { stpid: id }, (data, error) => {
       if (error) callback(null, error)
       else if ('eta' in data) {
-        callback(data.eta.map(prediction => moment(prediction.arrT)))
+        // console.log(data.eta)
+        callback(data.eta.map(prediction => ({
+          arrival: moment(prediction.arrT),
+          line: L_COLORS[prediction.rt.toLowerCase()],
+        })))
       } else callback(null, 'no arrival times')
     })
   } else {
     busRequest('getpredictions', { stpid: id }, (data, error) => {
       if (error) callback(null, error)
       else if ('prd' in data) {
-        callback(data.prd.map(prediction => moment(prediction.prdtm, 'YYYYMMDD HH:mm')))
+        callback(data.prd.map(prediction => ({
+          arrival: moment(prediction.prdtm, 'YYYYMMDD HH:mm'),
+          line: prediction.rt,
+        })))
       } else callback(null, 'no arrival times')
     })
   }

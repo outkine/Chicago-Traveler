@@ -16,7 +16,7 @@ export default class Favorites extends React.Component {
     this.stops = []
 
     if (!Object.values(favorites).reduce((bool, favorites) => (
-      bool || !favorites.length === 0
+      bool || favorites.length !== 0
     ), false)) {
       return (
         <Text style={{

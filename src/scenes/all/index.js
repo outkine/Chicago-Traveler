@@ -8,14 +8,17 @@ export default class All extends React.Component {
   state = { type: '' }
 
   render () {
+    // console.log('rendering...')
     return (
-      <View style={{ flex: 1, width: '90%', alignSelf: 'center' }}>
+      <View style={{ flex: 1, alignSelf: 'center', width: '100%' }}>
         <View style={{
           flexDirection: 'row',
           height: 70,
           padding: 10,
           elevation: 5,
           backgroundColor: 'white',
+          width: '90%',
+          alignSelf: 'center',
         }}>
           {
             ['train', 'bus'].map(type =>

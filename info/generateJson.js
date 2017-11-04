@@ -25,15 +25,19 @@ function generateTrainLines (stop) {
   return lines
 }
 
-const L_DIRECTIONS = {
-  s: 'South-bound',
-  n: 'North-bound',
-  e: 'East-bound',
-  w: 'West-bound',
-  ne: 'Northeast-bound',
-  nw: 'Northwest-bound',
-  se: 'Southeast-bound',
-  sw: 'Southwest-bound',
+function getDirection (stop) {
+  return stop.stop_name.substring(stop.stop_name.lastIndexOf('(') + 1, stop.stop_name.lastIndexOf(')'))
+}
+
+const CTA_DIRECTIONS = {
+  s: 'South',
+  n: 'North',
+  e: 'East',
+  w: 'West',
+  ne: 'Northeast',
+  nw: 'Northwest',
+  se: 'Southeast',
+  sw: 'Southwest',
 }
 
 for (const type of ['bus', 'train']) {
@@ -75,7 +79,7 @@ for (const type of ['bus', 'train']) {
           title: stop.station_descriptive_name,
           latlng: processLocation(stop.location),
           lines: generateTrainLines(stop),
-          direction: L_DIRECTIONS[stop.direction_id.toLowerCase()],
+          direction: CTA_DIRECTIONS[stop.direction_id.toLowerCase()] + '\n' + getDirection(stop),
         }
       ))
     } else {
@@ -83,10 +87,10 @@ for (const type of ['bus', 'train']) {
         {
           id: stop.systemstop,
           displayTitle: stop.public_nam,
-          title: stop.public_nam,
+          title: stop.public_nam + ' ' + stop.cross_st,
           latlng: { latitude: parseFloat(stop.point_y), longitude: parseFloat(stop.point_x) },
           lines: stop.routesstpg.split(','),
-          direction: L_DIRECTIONS[stop.dir.replace('B', '').toLowerCase()],
+          direction: CTA_DIRECTIONS[stop.dir.replace('B', '').toLowerCase()] + '-bound',
         }
       ))
     }
@@ -94,6 +98,11 @@ for (const type of ['bus', 'train']) {
     const objectResult = result.reduce((stops, stop) => {
       if (stop.title in stops) {
         stops[stop.title].directions[stop.direction] = stop.id
+        for (let line of stop.lines) {
+          if (!stops[stop.title].lines.includes(line)) {
+            stops[stop.title].lines.push(line)
+          }
+        }
       } else {
         // warning: causing mutable changes below
         stop.directions = { [stop.direction]: stop.id }
