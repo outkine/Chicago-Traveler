@@ -26,8 +26,8 @@ export default class All extends React.Component {
                 <ImageButton
                   source={
                     type === 'train'
-                      ? require('mycta/assets/train.png')
-                      : require('mycta/assets/bus.png')
+                      ? require('chicago-traveler/assets/train.png')
+                      : require('chicago-traveler/assets/bus.png')
                   }
                   onPress={() => this.setState({ type })}
                   style={{

@@ -7,7 +7,7 @@ export default class StarButton extends React.Component {
   render () {
     return (
       <ImageButton
-        source={this.props.fullStar ? require('mycta/assets/full-star.png') : require('mycta/assets/empty-star.png')}
+        source={this.props.fullStar ? require('chicago-traveler/assets/full-star.png') : require('chicago-traveler/assets/empty-star.png')}
         onPress={this.props.onPress}
         style={[{ backgroundColor: colors.yellow[1] }, this.props.style]}
       />

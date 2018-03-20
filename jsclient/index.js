@@ -1,4 +1,4 @@
-import { busKey, trainKey } from 'mycta/keys'
+import { busKey, trainKey } from 'chicago-traveler/keys'
 import { stringify } from 'querystring'
 import moment from 'moment'
 

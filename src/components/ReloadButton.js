@@ -7,7 +7,7 @@ export default class ReloadButton extends React.Component {
   render () {
     return (
       <ImageButton
-        source={require('mycta/assets/refreshing.png')}
+        source={require('chicago-traveler/assets/refreshing.png')}
         onPress={this.props.onPress}
         style={[{ backgroundColor: colors.blue[1] }, this.props.style]}
       />

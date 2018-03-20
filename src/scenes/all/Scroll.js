@@ -2,8 +2,8 @@ import React from 'react'
 import { ScrollView, View } from 'react-native'
 
 import Button from 'src/components/Button'
-import * as lines from 'mycta/info/lines'
-import * as stops from 'mycta/info/stops'
+import * as lines from 'chicago-traveler/info/lines'
+import * as stops from 'chicago-traveler/info/stops'
 import Stop from 'src/components/Stop'
 import { ctaColors } from 'src/styles/constants'
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { /*SectionList,*/ ScrollView, View, Text, RefreshControl } from 'react-native'
 
 import Stop from 'src/components/Stop'
-import * as stops from 'mycta/info/stops'
+import * as stops from 'chicago-traveler/info/stops'
 import { fonts } from 'src/styles/constants'
 
 export default class Favorites extends React.Component {

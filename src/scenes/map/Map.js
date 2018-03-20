@@ -6,7 +6,7 @@ import { Permissions, Location } from 'expo'
 // shoutout to ya boy kenny G
 // oooh oooh Imma have to say yes
 
-import * as stops from 'mycta/info/stops'
+import * as stops from 'chicago-traveler/info/stops'
 import Loading from 'src/components/Loading'
 import MapSwitch from './MapSwitch'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-import { getPredictions } from 'mycta/jsclient'
+import { getPredictions } from 'chicago-traveler/jsclient'
 import ReloadButton from './ReloadButton'
 import StarButton from './StarButton'
 import { fonts, ctaColors, colors } from 'src/styles/constants'
